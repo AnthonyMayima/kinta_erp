@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: kinta-erp
+    runtime: node
+    rootDir: kinta-backend
+    buildCommand: npm install
+    startCommand: node src/server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: INITIAL_ADMIN_LOGIN
+        value: admin
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false
+      - key: INITIAL_BOUTIQUE_NAME
+        value: Poto-Poto Shop
+      - key: KINTA_ADMIN_LOGIN
+        value: kinta-admin
+      - key: KINTA_ADMIN_PASSWORD
+        sync: false
+      - key: DB_PATH
+        value: /data/kinta.db
+    disk:
+      name: kinta-data
+      mountPath: /data
+      sizeGB: 1

@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Kinta ERP</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+<link rel="manifest" href="manifest.webmanifest"/>
+<script src="assets/vendor/chart.umd.min.js"></script>
+</head>
+<body>
+<!-- Line icons (same style as the sidebar), used via <svg class="ic"><use href="#i-name"/></svg> -->
+<svg class="icon-sprite" aria-hidden="true" style="display:none">
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8.01" y2="11"/><line x1="12" y1="11" x2="12.01" y2="11"/><line x1="16" y1="11" x2="16.01" y2="11"/><line x1="8" y1="15" x2="8.01" y2="15"/><line x1="12" y1="15" x2="12.01" y2="15"/><line x1="16" y1="15" x2="16" y2="18"/><line x1="8" y1="18" x2="12" y2="18"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></symbol>
+  <symbol id="i-cash" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><line x1="6" y1="12" x2="6.01" y2="12"/><line x1="18" y1="12" x2="18.01" y2="12"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="21"/><line x1="5" y1="7" x2="19" y2="7"/><path d="M5 7l-3 7a3 3 0 0 0 6 0z"/><path d="M19 7l-3 7a3 3 0 0 0 6 0z"/><line x1="8" y1="21" x2="16" y2="21"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M11.5 11.5L21 2"/><path d="M17 6l3 3"/><path d="M15 8l2 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M5 2h14v20l-3-2-2 2-2-2-2 2-2-2-3 2z"/><line x1="9" y1="7" x2="15" y2="7"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="13" y2="15"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+</svg>
+
+<!-- ═══════════════ AUTH ═══════════════ -->
+<div class="auth-wrap" id="auth-screen">
+  <div class="auth-logo-row">
+    <div class="auth-logo-ico"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+    <div class="auth-logo-name">Kinta</div>
+  </div>
+  <div class="auth-sub">Till, stock and customer credit for your shop</div>
+  <div class="auth-card">
+    <div class="auth-card-title">Sign in</div>
+    <div class="auth-err" id="auth-err">Incorrect credentials. Try again.</div>
+    <div class="auth-field">
+      <label class="auth-label">Username</label>
+      <input class="auth-input" id="auth-user" placeholder="admin" autocomplete="username" onkeydown="if(event.key==='Enter')login()"/>
+    </div>
+    <div class="auth-field">
+      <label class="auth-label" for="auth-pass">Password</label>
+      <div class="password-wrap">
+        <input class="auth-input" type="password" id="auth-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/>
+        <button class="password-toggle" type="button" onclick="togglePasswordVisibility()" aria-label="Show password" aria-pressed="false" title="Show password">
+          <svg class="eye-open" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.2A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a18 18 0 0 1-2.1 3.1M6.6 6.6C3.6 8.5 2 12 2 12s3.5 7 10 7a10.7 10.7 0 0 0 4.2-.8"/></svg>
+        </button>
+      </div>
+    </div>
+    <button class="auth-btn" onclick="login()">Sign in</button>
+    <button class="btn btn-outline" id="register-shop-button" type="button" onclick="openM('m-register-shop')" style="width:100%;justify-content:center;margin-top:10px;display:none">Create a new shop</button>
+    <div class="auth-hint" id="development-login-hint" hidden>Local development: <strong>admin</strong> / <strong>kinta2026</strong></div>
+  </div>
+</div>
+
+<!-- ═══════════════ APP ═══════════════ -->
+<div class="app" id="app" style="display:none">
+<button class="mobile-backdrop" type="button" onclick="closeMobileMenu()" aria-label="Close menu"></button>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-top">
+    <div class="sb-brand">
+      <div class="sb-logo"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+      <div class="sb-name">Kinta</div>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Main</div>
+    <div class="sb-item on" data-p="dashboard" onclick="nav('dashboard',this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </div>
+    <div class="sb-sec">Till</div>
+    <div class="sb-item" data-p="caisse" onclick="nav('caisse',this)">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="8" y2="15"/></svg>
+      Till (POS)
+    </div>
+    <div class="sb-sec">Sales</div>
+    <div class="sb-item" data-p="ventes" onclick="nav('ventes',this)">
+      <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      Sales
+    </div>
+    <div class="sb-sec">Products</div>
+    <div class="sb-item" data-p="produits" onclick="nav('produits',this);switchProductTab('catalogue')">
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      Products &amp; Stock
+      <span class="sb-badge" id="badge-stk">0</span>
+    </div>
+    <div class="sb-item" data-p="achats" onclick="nav('achats',this)">
+      <svg viewBox="0 0 24 24"><path d="M3 3h2l2.4 11.2a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/><circle cx="10" cy="20" r="1"/><circle cx="19" cy="20" r="1"/></svg>
+      Stock purchases
+    </div>
+    <div class="sb-item" data-p="clients" onclick="nav('clients',this)">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Customers
+    </div>
+    <div class="sb-sec">Finance</div>
+    <div class="sb-item" data-p="tresorerie" onclick="nav('tresorerie',this)">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+      Treasury
+    </div>
+    <div class="sb-sec">Reports</div>
+    <div class="sb-item" data-p="rapports" onclick="nav('rapports',this)">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Reports
+    </div>
+    <div class="sb-sec">Partners</div>
+    <div class="sb-item" data-p="fournisseurs" onclick="nav('fournisseurs',this)">
+      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      Suppliers
+    </div>
+    <div class="sb-sec">Management</div>
+    <div class="sb-item" data-p="retours" onclick="nav('retours',this)">
+      <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.63"/></svg>
+      Returns
+    </div>
+    <div class="sb-item" data-p="comptabilite" onclick="nav('comptabilite',this)">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Accounting
+    </div>
+    <div class="sb-sec">Control &amp; management</div>
+    <div class="sb-item" data-p="employes" onclick="nav('employes',this)">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Employees
+    </div>
+    <div class="sb-item" data-p="controle" onclick="nav('controle',this)">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+      Control &amp; backup
+    </div>
+    <div class="sb-item" data-p="parametres" onclick="nav('parametres',this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </div>
+  </nav>
+  <div class="sb-bottom">
+    <div class="sb-user">
+      <div class="sb-av" id="sb-av">G</div>
+      <div><div class="sb-uname" id="sb-uname">Manager</div><div class="sb-urole" id="sb-urole">Administrator</div></div>
+    </div>
+    <div class="sb-help" role="button" tabindex="0" onclick="openHelpCenter()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openHelpCenter()}" aria-label="Open help centre">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div><div class="sb-help-t">Need help?</div><div class="sb-help-s">Contact support</div></div>
+      <div class="sb-help-arr"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <button class="mobile-menu-btn" type="button" onclick="toggleMobileMenu()" aria-label="Open menu"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+      <div class="tb-pg" id="pg-title">Dashboard</div>
+    </div>
+    <div class="tb-right">
+      <div class="tb-date">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="tb-date">12 mai 2026</span>
+        <svg class="chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="notification-wrap" id="notification-wrap">
+        <button class="tb-notif" type="button" onclick="toggleAdminNotifications(event)" aria-label="Notifications">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="notif-num" id="notif-num" style="display:none">0</span>
+        </button>
+        <div class="notification-panel" id="notification-panel">
+          <div class="notification-head"><span>Notifications</span><button type="button" onclick="markAllAdminNotificationsRead(event)">Mark all as read</button></div>
+          <div class="notification-list" id="notification-list"></div>
+        </div>
+      </div>
+      <button class="tb-notif tb-message" type="button" onclick="openMessenger()" aria-label="Open messages" title="Internal messaging">
+        <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="13" y2="13"/></svg>
+        <span class="notif-num msg-nav-badge" id="msg-nav-badge" style="display:none">0</span>
+      </button>
+      <div class="profile-wrap" id="profile-wrap">
+        <button class="tb-user" type="button" id="profile-button" onclick="toggleProfileMenu(event)" aria-haspopup="menu" aria-expanded="false" aria-controls="profile-menu">
+          <div style="text-align:right"><div class="tb-uname" id="tb-uname">Manager</div><div class="tb-ushop" id="tb-shop">Shop</div></div>
+          <div class="tb-ua" id="tb-ua">G</div>
+          <svg class="tb-chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="profile-menu" id="profile-menu" role="menu" hidden>
+          <button type="button" role="menuitem" id="dark-toggle" onclick="toggleDark()"><svg class="ic" aria-hidden="true"><use href="#i-moon"/></svg><span>Dark mode</span></button>
+          <div class="profile-menu-sep" role="separator"></div>
+          <button type="button" role="menuitem" class="profile-menu-danger" onclick="closeProfileMenu();doLogout()"><svg class="ic" aria-hidden="true"><use href="#i-logout"/></svg><span>Sign out</span></button>
+        </div>
+      </div>
+      <button class="btn btn-outline btn-sm" type="button" onclick="refreshApp()" title="Refresh data" aria-label="Refresh data"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg> <span class="refresh-label">Refresh</span></button>
+    </div>
+  </div>
+
+  <div class="page-wrap">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="page on" id="page-dashboard">
+      <section class="setup-guide" id="setup-guide" aria-labelledby="setup-guide-title">
+        <div class="setup-guide-head">
+          <div>
+            <span class="setup-eyebrow">GETTING STARTED WITH KINTA</span>
+            <h2 id="setup-guide-title">Let's set up your shop together</h2>
+            <p id="setup-guide-message">Follow these steps in order. Kinta tracks your progress automatically.</p>
+          </div>
+          <div class="setup-score"><strong id="setup-percent">0%</strong><span id="setup-count">0 of 4 steps</span></div>
+        </div>
+        <div class="setup-progress" aria-hidden="true"><span id="setup-progress-bar"></span></div>
+        <div class="setup-list" id="setup-list"></div>
+        <div class="setup-guide-foot"><button class="btn btn-outline btn-sm" type="button" onclick="openHelpCenter()">How it works</button><button class="btn btn-green btn-sm" id="setup-next" type="button" onclick="startNextSetupStep()">Start setup</button></div>
+      </section>
+      <div class="kpi5">
+        <div class="kpi-c" onclick="nav('ventes',document.querySelector('.sb-item[data-p=ventes]'))">
+          <div class="kpi-ic ic-green"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          <div class="kpi-lbl">Today's sales</div>
+          <div class="kpi-val" id="k-ca">0&nbsp;<span class="unit">R</span></div>
+          <div class="kpi-note">Sales invoiced today, credit included</div>
+          <div class="kpi-trend t-flat" id="k-ca-trend">— vs yesterday</div>
+        </div>
+        <div class="kpi-c" onclick="nav('tresorerie',document.querySelector('.sb-item[data-p=tresorerie]'))">
+          <div class="kpi-ic ic-blue"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+          <div class="kpi-lbl">Receipts</div>
+          <div class="kpi-val" id="k-enc">0&nbsp;<span class="unit">R</span></div>
+          <div class="kpi-note">Money received today, credit payments included</div>
+          <div class="kpi-trend t-flat" id="k-enc-trend">— vs yesterday</div>
+        </div>
+        <div class="kpi-c" onclick="nav('rapports',document.querySelector('.sb-item[data-p=rapports]'))">
+          <div class="kpi-ic ic-orange"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+          <div class="kpi-lbl">Today's profit</div>
+          <div class="kpi-val" id="k-benef">0&nbsp;<span class="unit">R</span></div>
+          <div class="kpi-note">Gross margin on today's sales</div>
+          <div class="kpi-trend t-flat" id="k-benef-trend">— vs yesterday</div>
+        </div>
+        <div class="kpi-c" onclick="nav('ventes',document.querySelector('.sb-item[data-p=ventes]'))">
+          <div class="kpi-ic ic-purple"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+          <div class="kpi-lbl">Transactions</div>
+          <div class="kpi-val" id="k-trans">0</div>
+          <div class="kpi-note">Today's sales, excluding cancellations</div>
+          <div class="kpi-trend t-flat" id="k-trans-trend">— vs yesterday</div>
+        </div>
+        <div class="kpi-c" onclick="openProductModule('stock')" style="border-color:#fecaca">
+          <div class="kpi-ic ic-red"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div class="kpi-lbl">Alerts</div>
+          <div class="kpi-val" style="color:#ef4444" id="k-alerts">7</div>
+          <div style="font-size:12px;color:#ef4444;font-weight:500;margin-top:3px">View alerts</div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <!-- To watch -->
+        <div class="card">
+          <div class="card-hdr">
+            <span class="card-title">To watch today</span>
+            <span class="card-link" onclick="openProductModule('stock')">View all alerts <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="watch-item">
+            <div class="wi-ic" style="background:#fffbeb"><svg viewBox="0 0 24 24" style="stroke:#d97706"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <div class="wi-body"><div class="wi-title">Low stock</div><div class="wi-sub" id="aw-low">6 products affected</div></div>
+            <span class="wi-btn" onclick="openProductModule('stock')">View <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="watch-item">
+            <div class="wi-ic" style="background:#fef2f2"><svg viewBox="0 0 24 24" style="stroke:#ef4444"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <div class="wi-body"><div class="wi-title">Out of stock</div><div class="wi-sub" id="aw-rupt">1 product out of stock</div></div>
+            <span class="wi-btn" onclick="openProductModule('stock')">View <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="watch-item">
+            <div class="wi-ic" style="background:#eff6ff"><svg viewBox="0 0 24 24" style="stroke:#3b82f6"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <div class="wi-body"><div class="wi-title">Unpaid invoices</div><div class="wi-sub" id="aw-fac">3 invoices pending</div></div>
+            <span class="wi-btn" onclick="nav('ventes',document.querySelector('.sb-item[data-p=ventes]'))">View <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <div class="watch-item">
+            <div class="wi-ic" style="background:#fdf4ff"><svg viewBox="0 0 24 24" style="stroke:#a855f7"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <div class="wi-body"><div class="wi-title">Customer debts</div><div class="wi-sub" id="aw-dette">5 customers owe money</div></div>
+            <span class="wi-btn" onclick="nav('clients',document.querySelector('.sb-item[data-p=clients]'))">View <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+          </div>
+          <button class="see-all-btn" onclick="openProductModule('stock')">View all alerts</button>
+        </div>
+        <!-- Quick actions -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:14px">Quick actions</div>
+          <div class="qa-grid">
+            <div class="qa-item" onclick="nav('caisse',document.querySelector('.sb-item[data-p=caisse]'))">
+              <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="8" y2="15"/></svg>
+              <div class="qa-label">New sale</div>
+            </div>
+            <div class="qa-item" onclick="openM('m-prod')">
+              <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+              <div class="qa-label">Add a product</div>
+            </div>
+            <div class="qa-item" onclick="nav('achats',document.querySelector('.sb-item[data-p=achats]'))">
+              <svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+              <div class="qa-label">Buy stock</div>
+            </div>
+            <div class="qa-item" onclick="nav('rapports',document.querySelector('.sb-item[data-p=rapports]'))">
+              <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <div class="qa-label">Sales report</div>
+            </div>
+            <div class="qa-item" onclick="openM('m-depense')">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <div class="qa-label">Expense</div>
+            </div>
+            <div class="qa-item" onclick="openTreasuryOperation('transfer')">
+              <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              <div class="qa-label">Money transfer</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.65fr 1fr;gap:14px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <!-- Recent activity -->
+          <div class="card">
+            <div class="card-hdr">
+              <span class="card-title">Recent activity</span>
+              <span class="card-link" onclick="nav('controle',document.querySelector('.sb-item[data-p=controle]'))">See all <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
+            <div id="act-list">
+              <div class="act-item">
+                <div class="act-ic" style="background:#f0fdf4"><svg viewBox="0 0 24 24" style="stroke:#16a34a"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+                <div style="flex:1"><div class="act-title">Kinta loaded</div><div class="act-sub">Welcome!</div></div>
+                <div class="act-time">Just now</div>
+              </div>
+            </div>
+          </div>
+          <!-- Chart -->
+          <div class="card">
+            <div class="card-hdr">
+              <span class="card-title">Sales comparison</span>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#64748b"><div style="width:10px;height:10px;border-radius:2px;background:#16a34a"></div>This month</div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#64748b"><div style="width:10px;height:10px;border-radius:2px;background:#d1d5db"></div>Previous month</div>
+              </div>
+            </div>
+            <div style="height:170px;position:relative"><canvas id="dash-chart"></canvas></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <!-- Quick summary -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:12px">Quick summary</div>
+            <div class="stat-row"><span class="stat-lbl">Products in stock</span><span class="stat-val" id="s-prods">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Stock value</span><span class="stat-val" style="color:#16a34a" id="s-stk">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Active customers</span><span class="stat-val" style="color:#16a34a" id="s-cli">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Suppliers</span><span class="stat-val" id="s-fourn">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Employees</span><span class="stat-val" id="s-emp">—</span></div>
+            <button onclick="nav('rapports',document.querySelector('.sb-item[data-p=rapports]'))" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:12px">View all reports</button>
+          </div>
+          <!-- Top products -->
+          <div class="card">
+            <div class="card-title" style="margin-bottom:12px">Top-selling products</div>
+            <div id="top-prods">
+              <div class="tp-row"><div class="tp-rank">1</div><div class="tp-name">Long-grain rice 10kg</div><div class="tp-qty">125 bags</div><div class="tp-amt">960 K</div></div>
+              <div class="tp-row"><div class="tp-rank">2</div><div class="tp-name">Sunflower oil 2L</div><div class="tp-qty">98 cans</div><div class="tp-amt">539 K</div></div>
+              <div class="tp-row"><div class="tp-rank">3</div><div class="tp-name">White sugar 10kg</div><div class="tp-qty">76 bags</div><div class="tp-amt">675 K</div></div>
+              <div class="tp-row" style="border:none"><div class="tp-rank">4</div><div class="tp-name">Powdered milk 400g</div><div class="tp-qty">62 boxes</div><div class="tp-amt">279 K</div></div>
+            </div>
+            <button onclick="openProductModule('catalogue')" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:12px">View all products</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TILL (POS) ═══ -->
+    <div class="page" id="page-caisse">
+      <div class="alert-box ab-amber" id="cash-session-banner" style="margin-bottom:12px"><span><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg></span><span>Till closed. Open a session to take payments.</span><button class="btn btn-green btn-sm" style="margin-left:auto" onclick="openCashSessionModal()">Open the till</button></div>
+      <div class="pos-layout">
+        <div class="pos-left">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <div style="position:relative;flex:1;min-width:200px">
+              <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:#94a3b8;fill:none;stroke-width:2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input style="width:100%;border:1px solid #e2e8f0;border-radius:8px;padding:9px 12px 9px 34px;font-size:13px;color:#0f172a;outline:none;font-family:'Inter',sans-serif" placeholder="Search for a product (name, barcode)..." id="pos-q" oninput="filterPOS(this.value)"/>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="openM('m-scanner')"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg> Scan</button>
+            <button class="btn btn-outline btn-sm" onclick="let w=document.getElementById('pos-calc-wrap');w.style.display=w.style.display==='none'?'block':'none'"><svg class="ic" aria-hidden="true"><use href="#i-calc"/></svg> Calculator</button>
+          </div>
+          <div class="cat-tabs" id="pos-cats"></div>
+          <div class="pos-grid" id="pos-grid"></div>
+        </div>
+        <!-- POS CALCULATOR (below the products) -->
+        <div id="pos-calc-wrap" style="display:none">
+          <div class="card card-sm" style="margin-top:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <div style="font-size:13px;font-weight:600;color:var(--text)">Calculator</div>
+              <button onclick="document.getElementById('pos-calc-wrap').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:#94a3b8">×</button>
+            </div>
+            <div id="calc-screen" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;text-align:right;font-family:'Inter',sans-serif;margin-bottom:8px">
+              <div style="font-size:11px;color:#94a3b8;min-height:16px" id="calc-expr"></div>
+              <div style="font-size:22px;font-weight:700;color:#0f172a" id="calc-display">0</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px">
+              <button class="calc-btn calc-fn" onclick="calcAct('C')">C</button>
+              <button class="calc-btn calc-fn" onclick="calcAct('±')">±</button>
+              <button class="calc-btn calc-fn" onclick="calcAct('%')">%</button>
+              <button class="calc-btn calc-op" onclick="calcAct('/')">÷</button>
+              <button class="calc-btn" onclick="calcAct('7')">7</button>
+              <button class="calc-btn" onclick="calcAct('8')">8</button>
+              <button class="calc-btn" onclick="calcAct('9')">9</button>
+              <button class="calc-btn calc-op" onclick="calcAct('*')">×</button>
+              <button class="calc-btn" onclick="calcAct('4')">4</button>
+              <button class="calc-btn" onclick="calcAct('5')">5</button>
+              <button class="calc-btn" onclick="calcAct('6')">6</button>
+              <button class="calc-btn calc-op" onclick="calcAct('-')">−</button>
+              <button class="calc-btn" onclick="calcAct('1')">1</button>
+              <button class="calc-btn" onclick="calcAct('2')">2</button>
+              <button class="calc-btn" onclick="calcAct('3')">3</button>
+              <button class="calc-btn calc-op" onclick="calcAct('+')">+</button>
+              <button class="calc-btn" onclick="calcAct('00')" style="grid-column:span 1">00</button>
+              <button class="calc-btn" onclick="calcAct('0')">0</button>
+              <button class="calc-btn" onclick="calcAct('.')">.</button>
+              <button class="calc-btn calc-eq" onclick="calcAct('=')">=</button>
+            </div>
+          </div>
+        </div>
+        <div class="pos-right">
+          <div class="pos-panel pos-cart-panel">
+            <div class="cart-hdr">
+              <div><div class="cart-eyebrow">CURRENT ORDER</div><div class="cart-title">Cart <span class="cart-badge" id="cart-cnt">0</span></div></div>
+              <button class="btn btn-danger btn-xs" onclick="clearCart()">Clear</button>
+            </div>
+            <div id="pos-cart"><div class="pos-cart-empty"><div class="pos-cart-empty-icon"><svg class="ic" aria-hidden="true"><use href="#i-cart"/></svg></div><strong>The cart is empty</strong><span>Select a product to start</span></div></div>
+            <div class="cart-totals">
+              <div class="ct-row"><span>Subtotal</span><span id="pos-sub">R&nbsp;0.00</span></div>
+              <div class="ct-row" style="align-items:center">
+                <span>Discount</span>
+                <div style="display:flex;align-items:center;gap:5px">
+                  <input type="number" id="pos-remise-val" value="0" min="0" style="width:52px;border:1px solid #e2e8f0;border-radius:6px;padding:3px 6px;font-size:12px;text-align:right;outline:none" oninput="updPOS()"/>
+                  <select id="pos-remise-type" style="border:1px solid #e2e8f0;border-radius:6px;padding:3px 5px;font-size:11px;outline:none" onchange="updPOS()">
+                    <option value="pct">%</option>
+                    <option value="cfa">R</option>
+                  </select>
+                  <span id="pos-remise-display" style="font-size:12px;color:#ef4444;min-width:50px;text-align:right">R&nbsp;0.00</span>
+                </div>
+              </div>
+              <div class="ct-main"><span>TOTAL</span><span id="pos-tot">R&nbsp;0.00</span></div>
+            </div>
+          </div>
+          <div class="pos-panel pos-payment-panel">
+            <div class="pos-section-heading"><span class="pos-section-number">2</span><div><strong>Payment</strong><span>Choose the payment method</span></div></div>
+            <div class="pay-modes">
+              <button class="pay-mode-btn on" id="pay-esp" onclick="setPayMode('Cash')"><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> Cash</button>
+              <button class="pay-mode-btn" id="pay-credit" onclick="setPayMode('Credit')">On credit</button>
+              <button class="pay-mode-btn" id="pay-mm" onclick="setPayMode('Mobile Money')"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> Mobile Money</button>
+            </div>
+            <input type="hidden" id="pos-mode" value="Cash"/>
+            <div style="margin-top:10px" id="monnaie-wrap" style="display:none">
+              <label style="font-size:12px;font-weight:500;color:#374151;display:block;margin-bottom:5px">Amount received (R)</label>
+              <input style="width:100%;border:1px solid #d1d5db;border-radius:8px;padding:9px 12px;font-size:13px;font-family:'Inter',sans-serif;outline:none" type="number" id="pos-recu" placeholder="0" oninput="calcChange()"/>
+              <div class="monnaie-box" id="monnaie-display">
+                <div class="monnaie-lbl">Change due</div>
+                <div class="monnaie-val" id="monnaie-val">R&nbsp;0.00</div>
+              </div>
+            </div>
+            <div style="margin-top:10px">
+              <label style="font-size:12px;font-weight:500;color:#374151;display:block;margin-bottom:5px">Customer (optional)</label>
+              <select style="width:100%;border:1px solid #d1d5db;border-radius:8px;padding:8px 12px;font-size:13px;font-family:'Inter',sans-serif;outline:none" id="pos-cli"><option value="">— Walk-in customer —</option></select>
+            </div>
+            <button class="encaisse-btn" style="margin-top:12px" onclick="processSale()">
+              <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+              Take payment <span id="enc-amt">R&nbsp;0.00</span>
+            </button>
+            <button onclick="printLastTicket()" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:8px"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg> Last receipt</button>
+          </div>
+          <div class="pos-day-card">
+            <div class="pos-day-heading"><span>SESSION ACTIVITY</span><span class="pos-day-pulse"></span></div><div style="font-size:12px;color:#a7f3d0;margin-bottom:4px">Sales collected</div>
+            <div class="pos-day-ca" id="pos-d-ca">R&nbsp;0.00</div>
+            <div class="pos-day-sub" id="pos-d-cnt">0 transactions</div>
+            <div style="display:flex;gap:8px;margin-top:10px;font-size:12px">
+              <div class="pos-day-method"><div><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> Cash</div><strong id="pos-d-cash">R&nbsp;0.00</strong></div><div class="pos-day-method"><div><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> Mobile Money</div><strong id="pos-d-mm">R&nbsp;0.00</strong></div>
+            </div>
+            <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:10px" onclick="closeTill()">Close the day (Z report)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SALES ═══ -->
+    <div class="page" id="page-ventes">
+      <div class="kpi4" style="margin-bottom:14px">
+        <div class="km"><div class="km-label">Total sales</div><div class="km-val" id="v-tot">—</div><div class="km-sub">R</div></div>
+        <div class="km"><div class="km-label">Number of sales</div><div class="km-val" id="v-nb">—</div></div>
+        <div class="km"><div class="km-label">Pending</div><div class="km-val" id="v-att" style="color:#f59e0b">—</div><div class="km-sub" id="v-att-a"></div></div>
+        <div class="km"><div class="km-label">Collected</div><div class="km-val" id="v-paid" style="color:#16a34a">—</div><div class="km-sub" id="v-paid-a"></div></div>
+      </div>
+      <div class="search-bar">
+        <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Receipt no., customer..." oninput="filterT('t-ventes',this.value,[0,1])"/></div>
+        <select class="fi" style="width:130px" onchange="filterT('t-ventes',this.value,[4])"><option value="">All statuses</option><option value="Paid">Paid</option><option value="Pending">Pending</option></select>
+        <button class="btn btn-green" onclick="openSaleModal()">+ New sale</button>
+      </div>
+      <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Date / Time</th><th>Receipt no.</th><th>Cashier</th><th>Amount</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead><tbody id="t-ventes"></tbody></table></div><div id="t-ventes-pager"></div></div>
+    </div>
+
+    <!-- ═══ PRODUCTS & STOCK ═══ -->
+    <div class="page" id="page-produits">
+      <div class="product-tabs">
+        <button class="ptab on" id="product-tab-catalogue" onclick="switchProductTab('catalogue')">Catalogue</button>
+        <button class="ptab" id="product-tab-stock" onclick="switchProductTab('stock')">Stock</button>
+        <button class="ptab" id="product-tab-inventaires" onclick="switchProductTab('inventaires')">Stock counts</button>
+      </div>
+
+      <div id="product-content-catalogue">
+        <div class="search-bar">
+          <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Search for a product..." oninput="filterT('t-prods',this.value,[0,1,2])"/></div>
+          <select class="fi" style="width:160px" id="pcat-f" onchange="filterT('t-prods',this.value,[1])"><option value="">All categories</option></select>
+          <button class="btn btn-outline btn-sm" onclick="openM('m-import-csv')">Import CSV</button>
+          <button class="btn btn-green" onclick="openM('m-prod');updateSubcategories()">+ Add product</button>
+        </div>
+        <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Current stock</th><th>Min. stock</th><th>Cost price</th><th>Stock value</th><th>Status</th><th>Action</th></tr></thead><tbody id="t-prods"></tbody></table></div><div id="t-prods-pager"></div></div>
+      </div>
+
+      <div id="product-content-stock" style="display:none">
+        <div class="kpi4">
+          <div class="km"><div class="km-label">Total stock value</div><div class="km-val" style="color:#16a34a" id="sk-val">—</div><div class="km-sub" id="sk-sub">— products in stock</div></div>
+          <div class="km"><div class="km-label">Low stock</div><div class="km-val" style="color:#f59e0b" id="sk-low">—</div><div class="km-sub">Products to restock</div></div>
+          <div class="km"><div class="km-label">Out of stock</div><div class="km-val" style="color:#ef4444" id="sk-rupt">—</div><div class="km-sub">Products out of stock</div></div>
+          <div class="km"><div class="km-label">Recorded movements</div><div class="km-val" id="sk-mvt">0</div><div class="km-sub">Ins and outs</div></div>
+        </div>
+        <div class="search-bar">
+          <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Search stock..." oninput="filterT('t-stock',this.value,[0,1])"/></div>
+          <select class="fi" style="width:140px" id="scat-f" onchange="filterT('t-stock',this.value,[1])"><option value="">All categories</option></select>
+          <select class="fi" style="width:140px" onchange="filterStockStatus(this.value)"><option value="">All statuses</option><option value="ok">In stock</option><option value="low">Low stock</option><option value="out">Out of stock</option></select>
+          <button class="btn btn-outline btn-sm" onclick="openM('m-scanner')">Scan</button>
+          <button class="btn btn-green" onclick="openM('m-prod');updateSubcategories()">+ Add product</button>
+        </div>
+        <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Current stock</th><th>Min. stock</th><th>Cost price</th><th>Stock value</th><th>Status</th><th>Action</th></tr></thead><tbody id="t-stock"></tbody></table></div><div id="t-stock-pager"></div></div>
+      </div>
+
+      <div id="product-content-inventaires" style="display:none">
+        <div class="search-bar"><div style="flex:1"><div class="card-title">Stock count history</div><div class="km-sub">Valued stock snapshots at a given date</div></div><button class="btn btn-outline" onclick="exportControlStock()">Export stock</button><button class="btn btn-green" onclick="createInventorySnapshot()">+ New stock count</button></div>
+        <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Reference</th><th>Person in charge</th><th>Items</th><th>Stock value</th><th>Discrepancies</th></tr></thead><tbody id="t-inventaires"></tbody></table></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ STOCK PURCHASES ═══ -->
+    <div class="page" id="page-achats">
+      <div class="kpi4" style="margin-bottom:14px">
+        <div class="km"><div class="km-label">Purchases received</div><div class="km-val" id="ach-total">R&nbsp;0.00</div></div>
+        <div class="km"><div class="km-label">Amount paid</div><div class="km-val" style="color:#16a34a" id="ach-paye">R&nbsp;0.00</div></div>
+        <div class="km"><div class="km-label">Supplier debts</div><div class="km-val" style="color:#ef4444" id="ach-dette">R&nbsp;0.00</div></div>
+        <div class="km"><div class="km-label">Orders to receive</div><div class="km-val" id="ach-attente">0</div></div>
+      </div>
+      <div class="product-tabs">
+        <button class="ptab on" id="achat-tab-commandes" onclick="switchPurchaseTab('commandes')">Orders</button>
+        <button class="ptab" id="achat-tab-factures" onclick="switchPurchaseTab('factures')">Invoices &amp; debts</button>
+        <button class="ptab" id="achat-tab-mouvements" onclick="switchPurchaseTab('mouvements')">Stock movements</button>
+      </div>
+      <div id="achat-content-commandes">
+        <div class="search-bar"><div class="search-box"><input class="search-in" placeholder="Order or supplier..." oninput="filterT('t-ach-commandes',this.value,[0,1])"/></div><button class="btn btn-green" onclick="openPurchaseOrder()">+ New order</button></div>
+        <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Order no.</th><th>Supplier</th><th>Date</th><th>Delivery</th><th>Status</th><th>Amount</th><th>Actions</th></tr></thead><tbody id="t-ach-commandes"></tbody></table></div></div>
+      </div>
+      <div id="achat-content-factures" style="display:none">
+        <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Invoice no.</th><th>Supplier</th><th>Receipt date</th><th>Total</th><th>Paid</th><th>Balance due</th><th>Status</th><th>Actions</th></tr></thead><tbody id="t-ach-factures"></tbody></table></div></div>
+      </div>
+      <div id="achat-content-mouvements" style="display:none">
+        <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Product</th><th>Type</th><th>Quantity</th><th>Reference</th></tr></thead><tbody id="t-product-movements"></tbody></table></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ CLIENTS ═══ -->
+    <div class="page" id="page-clients">
+      <div class="search-bar">
+        <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Name, phone, email, city..." oninput="filterT('t-cli',this.value,[0,1,2,3,4])"/></div>
+        <select class="fi" style="width:130px" onchange="filterT('t-cli',this.value,[4])"><option value="">All types</option><option value="Retailer">Retailer</option><option value="Wholesaler">Wholesaler</option><option value="Individual">Individual</option></select>
+        <button class="btn btn-green" onclick="openM('m-cli')">+ New customer</button>
+      </div>
+      <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>City</th><th>Type</th><th>Balance due</th><th>Available credit</th><th>Actions</th></tr></thead><tbody id="t-cli"></tbody></table></div><div id="t-cli-pager"></div></div>
+    </div>
+
+    <!-- ═══ TREASURY ═══ -->
+    <div class="page" id="page-tresorerie">
+      <div class="card card-sm" style="margin-bottom:12px"><strong>Customer receivables: <span id="tr-creances">R&nbsp;0.00</span></strong> <button class="btn btn-outline btn-sm" onclick="nav('clients',document.querySelector('.sb-item[data-p=clients]'))">Details &amp; payments</button> <button class="btn btn-outline btn-sm" onclick="downloadTreasuryExcel()">Export treasury (Excel)</button></div>
+      <div class="period-tabs" style="margin-bottom:16px">
+        <button class="ptab on" onclick="switchUnified('tresorerie','tresorerie')">Transactions</button>
+        <button class="ptab" onclick="switchUnified('depenses','tresorerie')">Expenses</button>
+      </div>
+
+      <!-- 4 KPIs -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        <div class="card card-sm">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:40px;height:40px;background:#f0fdf4;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            </div>
+            <div>
+              <div style="font-size:12px;color:#64748b;margin-bottom:4px">Total treasury</div>
+              <div style="font-size:20px;font-weight:700;color:#0f172a;line-height:1" id="tr-solde">—</div>
+              <div style="font-size:11px;color:#94a3b8;margin-top:4px" id="tr-updated">Updated just now</div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-sm">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:40px;height:40px;background:#eff6ff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><polyline points="7 17 12 12 17 17"/><polyline points="7 11 12 6 17 11"/></svg>
+            </div>
+            <div>
+              <div style="font-size:12px;color:#64748b;margin-bottom:4px">Income this month</div>
+              <div style="font-size:20px;font-weight:700;color:#0f172a;line-height:1" id="tr-enc">—</div>
+              <div style="font-size:11px;color:#94a3b8;margin-top:4px">Sales + other income</div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-sm">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:40px;height:40px;background:#fef2f2;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="7 7 12 12 17 7"/><polyline points="7 13 12 18 17 13"/></svg>
+            </div>
+            <div>
+              <div style="font-size:12px;color:#64748b;margin-bottom:4px">Outgoings this month</div>
+              <div style="font-size:20px;font-weight:700;color:#0f172a;line-height:1" id="tr-dec">—</div>
+              <div style="font-size:11px;color:#94a3b8;margin-top:4px">Expenses + other outgoings</div>
+            </div>
+          </div>
+        </div>
+        <div class="card card-sm">
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <div style="width:40px;height:40px;background:#fff7ed;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:12px;color:#64748b;margin-bottom:4px">Available balance</div>
+              <div style="font-size:20px;font-weight:700;color:#0f172a;line-height:1" id="tr-dispo">—</div>
+              <div style="font-size:11px;color:#94a3b8;margin-top:4px">Income − Outgoings</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        <div onclick="openTreasuryOperation('in')" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:box-shadow .15s" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
+          <div style="width:38px;height:38px;background:#f0fdf4;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="8" y2="15"/></svg></div>
+          <div><div style="font-size:13px;font-weight:600;color:#0f172a">Take payment</div><div style="font-size:11.5px;color:#64748b">Add income</div></div>
+        </div>
+        <div onclick="openM('m-depense')" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:box-shadow .15s" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
+          <div style="width:38px;height:38px;background:#fef2f2;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div><div style="font-size:13px;font-weight:600;color:#0f172a">Spend</div><div style="font-size:11.5px;color:#64748b">Add outgoing</div></div>
+        </div>
+        <div onclick="openTreasuryOperation('transfer')" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:box-shadow .15s" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
+          <div style="width:38px;height:38px;background:#eff6ff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+          <div><div style="font-size:13px;font-weight:600;color:#0f172a">Transfer</div><div style="font-size:11.5px;color:#64748b">Between accounts</div></div>
+        </div>
+        <div onclick="openTreasuryOptions()" style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:box-shadow .15s" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
+          <div style="width:38px;height:38px;background:#faf5ff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <div><div style="font-size:13px;font-weight:600;color:#0f172a">More options</div><div style="font-size:11.5px;color:#64748b">View all tools</div></div>
+        </div>
+      </div>
+
+      <!-- Treasury accounts -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div style="font-size:15px;font-weight:600;color:#0f172a">Treasury accounts</div>
+        <button class="btn btn-outline btn-sm" onclick="openTreasuryOptions()">View all accounts</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 320px;gap:12px;margin-bottom:16px">
+        <div class="card card-sm" style="cursor:pointer" onclick="openAccountHistory('till')" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:36px;height:36px;background:#f0fdf4;border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+            <div style="font-size:13px;font-weight:500;color:#374151">Main till</div>
+            <svg style="margin-left:auto;width:16px;height:16px;stroke:#94a3b8;fill:none;stroke-width:2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div style="font-size:22px;font-weight:700;color:#0f172a" id="cpt-caisse">R&nbsp;0.00</div>
+          <div style="font-size:12px;color:#64748b;font-weight:500;margin-top:4px">Current balance</div>
+          <div class="cash-negative-warning" id="cpt-caisse-warning" role="status" hidden><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg><span>Negative cash balance: a till cannot be negative. Check the transactions entered.</span></div>
+        </div>
+        <div class="card card-sm" style="cursor:pointer" onclick="openAccountHistory('mobile')" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:36px;height:36px;background:#fff7ed;border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+            <div style="font-size:13px;font-weight:500;color:#374151">Mobile Money</div>
+            <svg style="margin-left:auto;width:16px;height:16px;stroke:#94a3b8;fill:none;stroke-width:2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div style="font-size:22px;font-weight:700;color:#0f172a" id="cpt-mobile">R&nbsp;0.00</div>
+          <div style="font-size:12px;color:#64748b;font-weight:500;margin-top:4px">Current balance</div>
+        </div>
+        <div class="card card-sm" style="cursor:pointer" onclick="openAccountHistory('bank')" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="width:36px;height:36px;background:#eff6ff;border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <div style="font-size:13px;font-weight:500;color:#374151">Bank</div>
+            <svg style="margin-left:auto;width:16px;height:16px;stroke:#94a3b8;fill:none;stroke-width:2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div style="font-size:22px;font-weight:700;color:#0f172a" id="cpt-banque">R&nbsp;0.00</div>
+          <div style="font-size:12px;color:#64748b;font-weight:500;margin-top:4px">Current balance</div>
+        </div>
+
+        <!-- Month summary — right panel -->
+        <div class="card card-sm" style="display:flex;flex-direction:column;gap:0">
+          <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:12px" id="tr-month-title">Monthly summary</div>
+          <div class="stat-row"><span class="stat-lbl">Opening balance</span><span class="stat-val" id="tr-opening">—</span></div>
+          <div class="stat-row"><span class="stat-lbl">Total income</span><span class="stat-val" style="color:#16a34a" id="tr-enc2">—</span></div>
+          <div class="stat-row"><span class="stat-lbl">Total outgoings</span><span class="stat-val" style="color:#ef4444" id="tr-dec2">—</span></div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0 0;border-top:2px solid #e2e8f0;margin-top:4px">
+            <span style="font-weight:700;font-size:14px;color:#0f172a">Current balance</span>
+            <span style="font-weight:700;font-size:14px" id="tr-solde2">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transactions + sidebar droite -->
+      <div style="display:grid;grid-template-columns:1fr 320px;gap:14px">
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div style="font-size:15px;font-weight:600;color:#0f172a">Latest transactions</div>
+            <button class="btn btn-outline btn-sm" onclick="openM('m-mouv')">View all transactions</button>
+          </div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Date</th><th>Description</th><th>Type</th><th>Account</th><th>Category</th><th>Amount</th><th>Method</th><th>Action</th></tr></thead>
+              <tbody id="t-treso"></tbody>
+            </table>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:12px 0 0;border-top:1px solid #f1f5f9;margin-top:10px;font-size:13px;font-weight:600">
+            <div>Total income <span style="color:#16a34a" id="tr-total-enc">—</span></div>
+            <div>Total outgoings <span style="color:#ef4444" id="tr-total-dec">—</span></div>
+          </div>
+        </div>
+
+        <!-- Right panel: summary + donut chart -->
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <!-- Expenses by category donut -->
+          <div class="card">
+            <div style="font-size:14px;font-weight:600;color:#0f172a;margin-bottom:16px">Expenses by category</div>
+            <div style="position:relative;height:130px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <canvas id="tr-donut" style="max-height:130px"></canvas>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px" id="tr-donut-legend">
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+                <div style="display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:50%;background:#16a34a;flex-shrink:0"></div><span style="color:#374151">Stock purchase</span></div>
+                <span style="font-weight:600;color:#374151">65%</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+                <div style="display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:50%;background:#3b82f6;flex-shrink:0"></div><span style="color:#374151">Rent</span></div>
+                <span style="font-weight:600;color:#374151">15%</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+                <div style="display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0"></div><span style="color:#374151">Transport</span></div>
+                <span style="font-weight:600;color:#374151">10%</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px">
+                <div style="display:flex;align-items:center;gap:7px"><div style="width:10px;height:10px;border-radius:50%;background:#d1d5db;flex-shrink:0"></div><span style="color:#374151">Other</span></div>
+                <span style="font-weight:600;color:#374151">10%</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-green" style="width:100%;justify-content:center;padding:12px;font-size:13px" onclick="nav('rapports',document.querySelector('.sb-item[data-p=rapports]'))">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            View full report
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ EXPENSES ═══ -->
+    <div class="page" id="page-depenses">
+      <div class="period-tabs" style="margin-bottom:16px">
+        <button class="ptab" onclick="switchUnified('tresorerie','tresorerie')">Transactions</button>
+        <button class="ptab on" onclick="switchUnified('depenses','tresorerie')">Expenses</button>
+      </div>
+      <div class="search-bar">
+        <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Search..." oninput="filterT('t-dep',this.value,[0,1])"/></div>
+        <button class="btn btn-green" onclick="openM('m-depense')">+ New expense</button>
+      </div>
+      <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Amount</th><th>Method</th><th>Actions</th></tr></thead><tbody id="t-dep"></tbody></table></div><div id="t-dep-pager"></div></div>
+    </div>
+
+    <!-- ═══ REPORTS ═══ -->
+    <div class="page" id="page-rapports">
+      <div class="period-tabs" style="margin-bottom:16px">
+        <button class="ptab on" onclick="switchUnified('rapports','rapports')">Sales</button>
+        <button class="ptab" onclick="switchUnified('autres-rapports','rapports')">Other reports</button>
+      </div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:14px">View and compare your sales over different periods.</div>
+      <div class="period-tabs">
+        <button class="ptab" onclick="setPeriod('today',this)">Today</button>
+        <button class="ptab" onclick="setPeriod('hier',this)">Yesterday</button>
+        <button class="ptab" onclick="setPeriod('7j',this)">Last 7 days</button>
+        <button class="ptab" onclick="setPeriod('30j',this)">Last 30 days</button>
+        <button class="ptab on" onclick="setPeriod('mois',this)">This month</button>
+        <button class="ptab" onclick="setPeriod('mois-d',this)">Last month</button>
+        <button class="ptab" onclick="setPeriod('custom',this)">Custom</button>
+      </div>
+      <div class="kpi5" style="grid-template-columns:repeat(5,1fr)">
+        <div class="km" style="grid-column:span 1"><div class="km-label">Total sales</div><div class="km-val" id="rp-total">—</div><div class="km-sub">Selected period</div></div>
+        <div class="km"><div class="km-label">Receipts</div><div class="km-val" id="rp-enc">—</div><div class="km-sub">Paid invoices</div></div>
+        <div class="km"><div class="km-label">Gross profit</div><div class="km-val" id="rp-benef">—</div><div class="km-sub">Estimated margin</div></div>
+        <div class="km"><div class="km-label">Number of sales</div><div class="km-val" id="rp-count">—</div><div class="km-sub">Transactions</div></div>
+        <div class="km"><div class="km-label">Average basket</div><div class="km-val" id="rp-panier">—</div><div class="km-sub">Per sale</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="card">
+          <div class="card-title" style="margin-bottom:14px">Sales comparison</div>
+          <div style="height:200px;position:relative"><canvas id="rapport-chart"></canvas><div id="rp-chart-empty" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;color:#94a3b8;font-size:13px">The chart will appear after your first sales.</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:12px">Comparison summary<br><span id="rp-compare-title" style="font-size:12px;font-weight:400;color:#64748b">Selected period</span></div>
+          <div id="rp-compare-empty" style="display:none;padding:30px 10px;text-align:center;color:#94a3b8;font-size:13px">No sales to compare for these periods.</div>
+          <div id="rp-compare-stats">
+            <div class="stat-row"><span class="stat-lbl">Total sales</span><span id="rp-diff-total" style="font-weight:600">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Receipts</span><span id="rp-diff-enc" style="font-weight:600">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Gross profit</span><span id="rp-diff-benef" style="font-weight:600">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Number of sales</span><span id="rp-diff-count" style="font-weight:600">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Average basket</span><span id="rp-diff-panier" style="font-weight:600">—</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-hdr"><span class="card-title">Monthly breakdown</span><button class="btn btn-green btn-sm" onclick="genReport('sales')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Export report</button></div>
+        <div class="tbl-wrap"><table><thead><tr><th>Period</th><th>Total sales (R)</th><th>Receipts (R)</th><th>Gross profit (R)</th><th>Number of sales</th><th>Average basket (R)</th><th>Status</th></tr></thead><tbody id="t-rapport-detail"><tr><td colspan="7" style="text-align:center;color:#94a3b8;padding:24px">No sales recorded</td></tr></tbody></table></div>
+        <div style="margin-top:12px"><button class="see-all-btn" onclick="showOlderReportMonths()"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg> View the last 12 months</button></div>
+      </div>
+    </div>
+
+    <!-- ═══ OTHER REPORTS ═══ -->
+    <div class="page" id="page-autres-rapports">
+      <div class="period-tabs" style="margin-bottom:16px">
+        <button class="ptab" onclick="switchUnified('rapports','rapports')">Sales</button>
+        <button class="ptab on" onclick="switchUnified('autres-rapports','rapports')">Other reports</button>
+      </div>
+      <div class="g2">
+        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('stock')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Full stock report</div><div style="font-size:12.5px;color:#64748b">Valuation, movements, batches, expiry dates</div></div>
+        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('treasury')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Treasury</div><div style="font-size:12.5px;color:#64748b">Receipts, payments, Mobile Money</div></div>
+        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('hr')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Human resources</div><div style="font-size:12.5px;color:#64748b">Attendance, salaries, employer CNSS 16.5%</div></div>
+        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('balance-sheet')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">DGI monthly statement</div><div style="font-size:12.5px;color:#64748b">Net income, VAT, CNSS, DGI Congo format</div></div>
+      </div>
+    </div>
+
+    <!-- ═══ EMPLOYEES ═══ -->
+    <div class="page" id="page-employes">
+      <div class="kpi3" style="margin-bottom:14px">
+        <div class="km"><div class="km-label">Active employees</div><div class="km-val" id="e-cnt">—</div></div>
+        <div class="km"><div class="km-label">Payroll</div><div class="km-val" id="e-sal">—</div><div class="km-sub">R / month</div></div>
+        <div class="km"><div class="km-label">Average attendance</div><div class="km-val" id="e-pres">—</div></div>
+      </div>
+      <div style="display:flex;gap:3px;background:#f8fafc;border-radius:10px;padding:3px;width:fit-content;margin-bottom:14px;border:1px solid #e2e8f0">
+        <button class="ptab on" id="etab-employes" onclick="switchEmpTab('employes')"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg> Employees</button>
+        <button class="ptab" id="etab-conges" onclick="switchEmpTab('conges')"><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg> Leave &amp; absences</button>
+      </div>
+      <div id="etab-content-employes">
+      <div class="search-bar">
+        <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Name or position..." oninput="filterT('t-emp',this.value,[0,1])"/></div>
+        <button class="btn btn-green" onclick="openEmployeeModal()">+ New employee</button>
+      </div>
+      <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Reference</th><th>Employee</th><th>Phone</th><th>Position</th><th>Hire date</th><th>Gross salary</th><th>CNSS (16.5%)</th><th>Attendance</th><th>Status</th><th>Actions</th></tr></thead><tbody id="t-emp"></tbody></table></div><div id="t-emp-pager"></div></div>
+      </div><!-- /etab-content-employes -->
+
+      <div id="etab-content-conges" style="display:none">
+        <div class="search-bar">
+          <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Employee..." oninput="filterT('t-conges',this.value,[0,1])"/></div>
+          <select class="fi" style="width:130px" onchange="filterT('t-conges',this.value,[2])"><option value="">All types</option><option value="Paid leave">Paid leave</option><option>Absence</option><option value="Sick leave">Sick leave</option><option value="Maternity leave">Maternity leave</option><option value="Unpaid leave">Unpaid leave</option></select>
+          <select class="fi" style="width:120px" onchange="filterT('t-conges',this.value,[5])"><option value="">All statuses</option><option value="Approved">Approved</option><option value="Pending">Pending</option><option value="Refused">Refused</option></select>
+          <button class="btn btn-green" onclick="openM('m-conge')">+ New leave</button>
+        </div>
+        <div class="kpi3" style="margin-bottom:14px">
+          <div class="km"><div class="km-label">Requests this month</div><div class="km-val" id="cg-total">—</div></div>
+          <div class="km"><div class="km-label">Days on leave</div><div class="km-val" style="color:#f59e0b" id="cg-jours">—</div></div>
+          <div class="km"><div class="km-label">Awaiting approval</div><div class="km-val" style="color:#ef4444" id="cg-pending">—</div></div>
+        </div>
+        <div class="card"><div class="tbl-wrap">
+          <table><thead><tr><th>Employee</th><th>Position</th><th>Type</th><th>From</th><th>To</th><th>Status</th><th>No. of days</th><th>Actions</th></tr></thead>
+          <tbody id="t-conges"></tbody></table>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ═══ SUPPLIERS ═══ -->
+    <div class="page" id="page-fournisseurs">
+      <!-- Onglets -->
+      <div style="display:flex;gap:3px;background:#f8fafc;border-radius:10px;padding:3px;width:fit-content;margin-bottom:14px;border:1px solid #e2e8f0">
+        <button class="ptab on" id="ftab-liste" onclick="switchSupplierTab('liste')"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg> Suppliers</button>
+      </div>
+      <!-- Suppliers tab -->
+      <div id="ftab-content-liste">
+        <div class="search-bar">
+          <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Name or category..." oninput="filterT('t-fourn',this.value,[0,2])"/></div>
+          <button class="btn btn-green" onclick="openM('m-fourn')">+ New supplier</button>
+        </div>
+        <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Name / Company</th><th>Phone</th><th>Category</th><th>Last order</th><th>Total purchases</th><th>Actions</th></tr></thead><tbody id="t-fourn"></tbody></table></div><div id="t-fourn-pager"></div></div>
+      </div>
+    </div>
+
+    <!-- ═══ RETURNS ═══ -->
+    <div class="page" id="page-retours">
+      <div class="kpi4" style="margin-bottom:14px">
+        <div class="km"><div class="km-label">Total returns</div><div class="km-val" style="color:#ef4444" id="ret-total">—</div><div class="km-sub">This month</div></div>
+        <div class="km"><div class="km-label">Customer returns</div><div class="km-val" id="ret-cli">—</div></div>
+        <div class="km"><div class="km-label">Supplier returns</div><div class="km-val" id="ret-fourn">—</div></div>
+        <div class="km"><div class="km-label">Amount refunded</div><div class="km-val" style="color:#ef4444" id="ret-rembourse">—</div><div class="km-sub">R</div></div>
+      </div>
+      <div class="search-bar">
+        <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Receipt no., product, customer..." oninput="filterT('t-retours',this.value,[0,1,2])"/></div>
+        <select class="fi" style="width:130px" onchange="filterT('t-retours',this.value,[4])"><option value="">All types</option><option value="Customer">Customer</option><option value="Supplier">Supplier</option></select>
+        <select class="fi" style="width:130px" onchange="filterT('t-retours',this.value,[5])"><option value="">All statuses</option><option value="Pending">Pending</option><option value="Refunded">Refunded</option><option value="Exchanged">Exchanged</option><option value="Refused">Refused</option></select>
+        <button class="btn btn-outline btn-sm" onclick="genReport('returns')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Export PDF</button>
+        <button class="btn btn-green" onclick="openReturnModal()">+ New return</button>
+      </div>
+      <div class="card"><div class="tbl-wrap">
+        <table><thead><tr><th>Date</th><th>Orig. receipt no.</th><th>Product</th><th>Qty</th><th>Type</th><th>Status</th><th>Reason</th><th>Amount</th><th>Actions</th></tr></thead>
+        <tbody id="t-retours"></tbody></table>
+      </div></div>
+    </div>
+
+    <!-- ═══ COMPTABILITE ═══ -->
+    <div class="page" id="page-comptabilite">
+      <!-- Onglets compta -->
+      <div style="display:flex;gap:3px;background:#f8fafc;border-radius:10px;padding:3px;width:fit-content;margin-bottom:14px;border:1px solid #e2e8f0">
+        <button class="ptab on" id="ctab-journal" onclick="switchAccountingTab('journal')"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg> Journal</button>
+        <button class="ptab" id="ctab-balance" onclick="switchAccountingTab('balance')"><svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg> Trial balance</button>
+        <button class="ptab" id="ctab-grandlivre" onclick="switchAccountingTab('grandlivre')"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg> General ledger</button>
+        <button class="ptab" id="ctab-tva" onclick="switchAccountingTab('tva')"><svg class="ic" aria-hidden="true"><use href="#i-wallet"/></svg> VAT return</button>
+        <button class="ptab" id="ctab-bilan" onclick="switchAccountingTab('bilan')"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg> Balance sheet</button>
+      </div>
+
+      <!-- Journal -->
+      <div id="ctab-content-journal">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+        <div class="km"><div class="km-label">Revenue</div><div class="km-val" style="color:#16a34a" id="cpt-ca">—</div><div class="km-sub">This month (incl. tax)</div></div>
+        <div class="km"><div class="km-label">Total expenses</div><div class="km-val" style="color:#ef4444" id="cpt-charges">—</div><div class="km-sub">Expenses + salaries</div></div>
+        <div class="km"><div class="km-label">Net income</div><div class="km-val" id="cpt-net">—</div><div class="km-sub">Revenue − Expenses</div></div>
+        <div class="km"><div class="km-label">VAT collected</div><div class="km-val" style="color:#a855f7" id="cpt-tva">—</div><div class="km-sub">Payable to DGI</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="card">
+          <div class="card-hdr">
+            <span class="card-title">Journal entries</span>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-outline btn-sm" onclick="genReport('journal')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Export</button>
+              <button class="btn btn-green btn-sm" onclick="openM('m-ecriture')">+ Entry</button>
+            </div>
+          </div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Date</th><th>Label</th><th>Account</th><th>Debit</th><th>Credit</th></tr></thead>
+            <tbody id="t-journal"></tbody>
+          </table></div>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:14px">Accounts — Summary</div>
+          <div id="plan-comptable-list">
+            <div class="stat-row"><span class="stat-lbl">70 — Sales</span><span class="stat-val" style="color:#16a34a" id="cpt-70">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">60 — Purchases</span><span class="stat-val" style="color:#ef4444" id="cpt-60">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">62 — Rent &amp; charges</span><span class="stat-val" style="color:#ef4444" id="cpt-62">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">64 — Salaries</span><span class="stat-val" style="color:#ef4444" id="cpt-64">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">44 — VAT collected</span><span class="stat-val" style="color:#a855f7" id="cpt-44c">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">44 — Deductible VAT</span><span class="stat-val" style="color:#3b82f6" id="cpt-44d">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0 0;border-top:2px solid #e2e8f0;margin-top:4px"><span style="font-weight:700;color:#0f172a">Net income</span><span style="font-weight:700;color:#16a34a" id="cpt-resultat">—</span></div>
+          </div>
+        </div>
+      </div>
+      </div><!-- /ctab-content-journal -->
+
+      <!-- Balance -->
+      <div id="ctab-content-balance" style="display:none">
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-hdr"><span class="card-title">Trial balance</span><button class="btn btn-green btn-sm" onclick="genReport('balance')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Export</button></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Account no.</th><th>Account name</th><th>Debit</th><th>Credit</th><th>Debit balance</th><th>Credit balance</th></tr></thead>
+            <tbody id="t-balance"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- General ledger -->
+      <div id="ctab-content-grandlivre" style="display:none">
+        <div class="search-bar">
+          <select class="fi" style="width:200px" id="gl-compte-filter" onchange="renderGeneralLedger()">
+            <option value="">All accounts</option>
+            <option value="70">70 — Sales</option>
+            <option value="60">60 — Purchases</option>
+            <option value="64">64 — Salaries</option>
+            <option value="44">44 — VAT</option>
+            <option value="57">57 — Cash</option>
+          </select>
+          <button class="btn btn-green btn-sm" onclick="genReport('general-ledger')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Export</button>
+        </div>
+        <div class="card">
+          <div class="card-title" style="margin-bottom:12px">General ledger</div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Date</th><th>Account no.</th><th>Label</th><th>Debit</th><th>Credit</th><th>Running balance</th></tr></thead>
+            <tbody id="t-grandlivre"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- VAT return -->
+      <div id="ctab-content-tva" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px">Monthly VAT return</div>
+            <div class="stat-row"><span class="stat-lbl">VAT collected (sales)</span><span class="stat-val" style="color:#16a34a" id="tva-collectee">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Deductible VAT (purchases)</span><span class="stat-val" style="color:#3b82f6" id="tva-deductible">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0 0;border-top:2px solid #e2e8f0;margin-top:4px">
+              <span style="font-weight:700;font-size:14px">Net VAT payable</span>
+              <span style="font-weight:700;font-size:16px;color:#a855f7" id="tva-nette">—</span>
+            </div>
+            <div class="alert-box ab-amber" style="margin-top:12px">
+              <span><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span><span>Payable to DGI Congo before <strong>the 15th of next month</strong></span>
+            </div>
+            <button class="btn btn-green" style="width:100%;justify-content:center;margin-top:12px" onclick="genReport('vat')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Generate VAT return PDF</button>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px">Return history</div>
+            <div id="tva-history-list">
+              <div class="stat-row"><span class="stat-lbl">April 2026</span><span class="stat-val" style="color:#16a34a">✓ Paid</span></div>
+              <div class="stat-row"><span class="stat-lbl">March 2026</span><span class="stat-val" style="color:#16a34a">✓ Paid</span></div>
+              <div class="stat-row"><span class="stat-lbl">February 2026</span><span class="stat-val" style="color:#16a34a">✓ Paid</span></div>
+              <div class="stat-row" style="border:none"><span class="stat-lbl">January 2026</span><span class="stat-val" style="color:#16a34a">✓ Paid</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Balance sheet -->
+      <div id="ctab-content-bilan" style="display:none">
+        <div class="g2">
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px">Balance sheet — Assets</div>
+            <div class="stat-row"><span class="stat-lbl">Treasury</span><span class="stat-val" style="color:#16a34a" id="bilan-tresorerie">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Stock value</span><span class="stat-val" id="bilan-stock">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Customer receivables</span><span class="stat-val" id="bilan-creances">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0 0;border-top:2px solid #e2e8f0;margin-top:4px"><span style="font-weight:700;color:#0f172a">TOTAL ASSETS</span><span style="font-weight:700;color:#16a34a" id="bilan-assets-total">—</span></div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:14px">Balance sheet — Liabilities</div>
+            <div class="stat-row"><span class="stat-lbl">Opening capital</span><span class="stat-val">R&nbsp;28,818.44</span></div>
+            <div class="stat-row"><span class="stat-lbl">Net income for the period</span><span class="stat-val" id="bilan-resultat">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">Supplier debts</span><span class="stat-val" style="color:#ef4444" id="bilan-dettes">—</span></div>
+            <div class="stat-row"><span class="stat-lbl">VAT payable</span><span class="stat-val" style="color:#a855f7" id="bilan-tva-p">—</span></div>
+            <div style="display:flex;justify-content:space-between;padding:10px 0 0;border-top:2px solid #e2e8f0;margin-top:4px"><span style="font-weight:700;color:#0f172a">TOTAL LIABILITIES</span><span style="font-weight:700;color:#16a34a" id="bilan-liabilities-total">—</span></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;text-align:center">
+          <button class="btn btn-green" onclick="genReport('balance-sheet')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Export balance sheet PDF</button>
+        </div>
+      </div>
+
+    </div><!-- /page-comptabilite -->
+
+    <!-- ═══ INTERNAL MESSAGING ═══ -->
+    <div class="modal-overlay messenger-overlay" id="m-messagerie">
+      <div class="messenger-shell messenger-modal">
+        <aside class="messenger-contacts">
+          <div class="messenger-contact-head"><div><strong>Conversations</strong><span>Shop team</span></div><button type="button" onclick="loadMessenger(true)" title="Refresh"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg></button></div>
+          <button class="messenger-contact on" id="msg-contact-general" type="button" onclick="selectMessageContact('general',this)"><span class="messenger-avatar general">#</span><span><strong>General channel</strong><small>Whole team</small></span><b id="msg-unread-general"></b></button>
+          <div class="messenger-contact-label">DIRECT MESSAGES</div>
+          <div id="msg-contact-list"><div class="messenger-loading">Loading…</div></div>
+        </aside>
+        <section class="messenger-chat">
+          <header class="messenger-chat-head"><div class="messenger-avatar general" id="msg-chat-avatar">#</div><div><strong id="msg-chat-title">General channel</strong><span id="msg-chat-subtitle">Visible to the whole team</span></div><button class="modal-close messenger-close" type="button" onclick="closeM('m-messagerie')" aria-label="Close">×</button></header>
+          <div class="messenger-messages" id="msg-messages"><div class="messenger-empty">Select a conversation.</div></div>
+          <div class="messenger-attachment-preview" id="msg-attachment-preview" style="display:none"></div>
+          <form class="messenger-composer" onsubmit="sendMessage(event)">
+            <div class="messenger-reference"><input id="msg-ticket-ref" maxlength="80" placeholder="Receipt no. (optional)" title="Link the message to a receipt"/><label class="messenger-file" title="Attach an image or PDF"><svg class="ic" aria-hidden="true"><use href="#i-clip"/></svg><input type="file" id="msg-file" accept="image/png,image/jpeg,image/webp,application/pdf" onchange="prepareMessageAttachment(this)"/></label></div>
+            <textarea id="msg-content" maxlength="2000" rows="2" placeholder="Write a message to your team…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage(event)}"></textarea>
+            <button class="btn btn-green" id="msg-send" type="submit">Send</button>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <!-- ═══ CONTROL & BACKUP ═══ -->
+    <div class="page" id="page-controle">
+      <section class="control-hero">
+        <div><h2>Kinta control centre</h2><p>Sessions, stock counts, audit trail and data protection</p></div>
+        <div class="control-actions">
+          <button class="btn control-btn-light" onclick="nav('caisse',document.querySelector('.sb-item[data-p=caisse]'))">Open the till</button>
+          <button class="btn btn-outline" onclick="closeTill();renderControl()">Close</button>
+        </div>
+      </section>
+
+      <div class="control-kpis">
+        <div class="control-kpi"><div class="control-kpi-label">Active till</div><div class="control-kpi-value" id="ctrl-caisse">Closed</div><div class="control-kpi-sub" id="ctrl-caisse-sub">No active session</div></div>
+        <div class="control-kpi"><div class="control-kpi-label">Discrepancies to review</div><div class="control-kpi-value" id="ctrl-alerts">0</div></div>
+        <div class="control-kpi"><div class="control-kpi-label">Logged actions</div><div class="control-kpi-value" id="ctrl-total">0</div></div>
+      </div>
+
+      <section class="control-panel">
+        <div class="control-panel-head"><h3>Till sessions</h3><button class="btn btn-outline btn-sm" onclick="renderControl()"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg> Refresh</button></div>
+        <div class="control-table-wrap"><table class="control-table"><thead><tr><th>Cashier</th><th>Opened</th><th>Float</th><th>Sales</th><th>Revenue</th><th>Difference</th><th>Status</th><th>Action</th></tr></thead><tbody id="ctrl-sessions"></tbody></table></div>
+      </section>
+
+      <section class="control-panel">
+        <div class="control-panel-head"><h3>Kinta support requests</h3></div>
+        <div class="control-table-wrap"><table class="control-table"><thead><tr><th>Kinta agent</th><th>Reason</th><th>Requested on</th><th>Status</th><th>Decision</th></tr></thead><tbody id="ctrl-support-requests"></tbody></table></div>
+      </section>
+
+      <section class="control-panel control-inventory">
+        <div class="control-panel-head">
+          <h3>Physical stock count</h3>
+          <div class="control-actions"><button class="btn btn-green" onclick="openProductModule('inventaires')">New stock count</button><button class="btn btn-outline" onclick="exportControlStock()">Export stock</button></div>
+        </div>
+        <div class="control-empty" id="ctrl-inventory">No stock count yet</div>
+      </section>
+
+      <section class="control-panel">
+        <div class="control-panel-head control-audit-head">
+          <h3>Audit log</h3>
+          <div class="control-actions">
+            <div class="control-search"><input id="ctrl-search" placeholder="Search for an action..." oninput="filterControlLog(this.value)"/></div>
+            <button class="btn btn-outline" onclick="exportControlBackup()">Back up</button>
+            <button class="btn btn-outline" onclick="g('ctrl-restore-file').click()">Restore</button>
+            <input type="file" id="ctrl-restore-file" accept="application/json,.json" style="display:none" onchange="restoreControlBackup(this)"/>
+          </div>
+        </div>
+        <div class="control-table-wrap"><table class="control-table"><thead><tr><th>Date</th><th>User</th><th>Action</th><th>Target</th><th>Details</th></tr></thead><tbody id="ctrl-log"></tbody></table></div>
+      </section>
+    </div>
+
+    <!-- ═══ SETTINGS ═══ -->
+    <div class="page" id="page-parametres">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">Shop details</div>
+
+          <!-- Logo upload zone -->
+          <div class="fg">
+            <label class="fl">Company logo (PNG, JPG — shown on all exports)</label>
+            <div style="display:flex;align-items:center;gap:14px;margin-top:6px">
+              <div id="logo-preview-wrap" style="width:80px;height:80px;border:2px dashed #e2e8f0;border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#f8fafc;flex-shrink:0;cursor:pointer" onclick="g('logo-file').click()">
+                <img id="logo-preview" src="" alt="" style="display:none;width:100%;height:100%;object-fit:contain"/>
+                <div id="logo-placeholder" style="text-align:center;color:#94a3b8">
+                  <div style="font-size:24px"><svg class="ic" aria-hidden="true"><use href="#i-image"/></svg></div>
+                  <div style="font-size:10px;margin-top:3px">Click</div>
+                </div>
+              </div>
+              <div style="flex:1">
+                <input type="file" id="logo-file" accept="image/png,image/jpeg,image/gif,image/webp" style="display:none" onchange="handleLogoUpload(this)"/>
+                <button class="btn btn-outline btn-sm" onclick="g('logo-file').click()"><svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg> Choose a logo</button>
+                <button class="btn btn-danger btn-xs" onclick="removeLogo()" style="margin-left:6px">✕ Remove</button>
+                <div style="font-size:11px;color:#94a3b8;margin-top:6px">PNG or JPG · Recommended size: 300×100px · Max 2 MB</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fg"><label class="fl">Company name *</label><input class="fi" id="p-nom" placeholder="e.g. Soweto Superstore (Pty) Ltd"/></div>
+          <div class="fg"><label class="fl">Tagline / Business</label><input class="fi" id="p-slogan" placeholder="e.g. General store &amp; groceries"/></div>
+          <div class="fg"><label class="fl">Address</label><input class="fi" id="p-adresse" placeholder="Street, Suburb, City"/></div>
+          <div class="frow"><div class="fg"><label class="fl">Phone</label><input class="fi" id="p-tel" placeholder="+27 XX XXX XXXX"/></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="p-email"/></div></div>
+          <div class="frow"><div class="fg"><label class="fl">Website</label><input class="fi" id="p-web" placeholder="www.myshop.co.za"/></div><div class="fg"><label class="fl">City</label><input class="fi" id="p-ville" placeholder="Johannesburg"/></div></div>
+          <div class="frow"><div class="fg"><label class="fl">Company reg. no.</label><input class="fi" id="p-rccm"/></div><div class="fg"><label class="fl">VAT number</label><input class="fi" id="p-niu"/></div></div>
+          <div class="frow"><div class="fg"><label class="fl">VAT (%)</label><input class="fi" type="number" id="p-tva" value="15"/></div><div class="fg"><label class="fl">Currency</label><input class="fi" value="South African rand (R)" readonly/></div></div>
+          <div class="fg"><label class="fl">Main colour (shown on exports)</label>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+              <input type="color" id="p-color" value="#16a34a" style="width:40px;height:34px;border-radius:8px;border:1px solid #d1d5db;cursor:pointer;padding:2px"/>
+              <span style="font-size:12px;color:#64748b">Accent colour for report headers</span>
+            </div>
+          </div>
+          <div class="fg"><label class="fl">Legal notice</label><textarea class="fta" id="p-mentions" placeholder="In case of late payment..."></textarea></div>
+
+          <!-- Export preview -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;margin-bottom:14px">
+            <div style="font-size:12px;font-weight:600;color:#374151;margin-bottom:10px">Export header preview</div>
+            <div id="header-preview" style="background:#fff;border-radius:8px;padding:14px;border:1px solid #e2e8f0">
+              <!-- filled by JS -->
+            </div>
+          </div>
+
+          <button class="btn btn-green" onclick="saveSettings()"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg> Save settings</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card" id="test-clock-card" style="display:none;border-color:#f59e0b">
+            <div class="card-title" style="margin-bottom:12px">Test clock</div>
+            <div class="alert-box ab-amber" style="margin-bottom:12px">New transactions will use this date and time on this test server.</div>
+            <div class="fg"><label class="fl" for="test-clock-datetime">Simulated date and time</label><input class="fi" type="datetime-local" id="test-clock-datetime"/></div>
+            <div id="test-clock-status" style="font-size:12px;color:#64748b;margin-bottom:12px"></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-green btn-sm" onclick="setTestClock()">Apply</button>
+              <button class="btn btn-outline btn-sm" onclick="resetTestClock()">Return to real time</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hdr"><span class="card-title">User management</span><button class="btn btn-green btn-sm" onclick="openM('m-user')">+ Add</button></div>
+            <table><thead><tr><th>Login</th><th>Role</th><th>Access</th><th>Actions</th></tr></thead>
+            <tbody id="t-users"></tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-title" style="margin-bottom:12px">Data</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-outline btn-sm" onclick="openM('m-chg-mdp')"><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg> Change password</button>
+              <button class="btn btn-outline btn-sm" onclick="exportData()"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Export JSON</button>
+              <button class="btn btn-outline btn-sm" onclick="saveAll();toast('Saved','green')"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg> Back up</button>
+              <button class="btn btn-danger btn-sm" onclick="confirmDo('Reset all data?',resetAll)">🗑 Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-wrap -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ═══════════════ MODALS ═══════════════ -->
+<div class="modal-overlay" id="m-cli"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New customer</div><button class="modal-close" onclick="closeM('m-cli')">×</button></div>
+  <div class="fg"><label class="fl">Name / Company *</label><input class="fi" id="c-nom" placeholder="Mama Thandi Spaza"/></div>
+  <div class="frow"><div class="fg"><label class="fl">Phone</label><input class="fi" id="c-tel" placeholder="+27 XX XXX XXXX"/></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="c-email"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">City</label><input class="fi" id="c-ville" placeholder="Johannesburg"/></div><div class="fg"><label class="fl">Type</label><select class="fs" id="c-type"><option value="Retailer">Retailer</option><option value="Wholesaler">Wholesaler</option><option value="Individual">Individual</option></select></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Credit limit (R)</label><input class="fi" type="number" id="c-credit" placeholder="0"/></div><div class="fg"><label class="fl">Address</label><input class="fi" id="c-adr" placeholder="Suburb..."/></div></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-cli')">Cancel</button><button class="btn btn-green" onclick="saveCustomer()">Save</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-caisse-open"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Open the till</div><button class="modal-close" onclick="closeM('m-caisse-open')">×</button></div>
+  <div class="alert-box ab-blue" style="margin-bottom:14px"><span>ℹ</span><span>Count the cash in the drawer before the first sale.</span></div>
+  <div class="fg"><label class="fl">Opening float (R)</label><input class="fi" type="number" min="0" id="cash-opening-fund" value="0"/></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-caisse-open')">Cancel</button><button class="btn btn-green" onclick="openCashSession()">Open session</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-caisse-close"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Close the till</div><button class="modal-close" onclick="closeM('m-caisse-close')">×</button></div>
+  <div class="alert-box ab-amber" id="cash-close-recap" style="margin-bottom:14px"></div>
+  <div class="fg"><label class="fl">Cash actually counted (R)</label><input class="fi" type="number" min="0" id="cash-counted"/></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-caisse-close')">Cancel</button><button class="btn btn-green" onclick="confirmCashClose()">Close and generate Z report</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-facture"><div class="modal modal-lg">
+  <div class="modal-hdr"><div class="modal-title">New sale</div><button class="modal-close" onclick="closeM('m-facture')">×</button></div>
+  <div class="frow"><div class="fg"><label class="fl">Customer *</label><select class="fs" id="f-cli"><option value="">— Select —</option></select></div><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="f-date"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Payment method</label><select class="fs" id="f-mode"><option value="Cash">Cash</option><option>Mobile Money (MTN)</option><option>Mobile Money (Airtel)</option><option value="Bank transfer">Bank transfer</option></select></div><div class="fg"><label class="fl">Due date</label><input class="fi" type="date" id="f-ech"/></div></div>
+  <div class="modal-sec">Lines</div>
+  <div id="f-lignes"></div>
+  <button class="btn btn-outline btn-sm" onclick="addLine('f-lignes','f-tot')" style="margin-top:8px">+ Line</button>
+  <div style="text-align:right;margin-top:12px;padding-top:10px;border-top:1px solid #e2e8f0">
+    <div style="font-size:12px;color:#64748b">TOTAL INCL. TAX</div>
+    <div style="font-size:22px;font-weight:700;color:#16a34a;font-family:'Inter',sans-serif" id="f-tot">R&nbsp;0.00</div>
+  </div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-facture')">Cancel</button><button class="btn btn-green" onclick="saveInvoice()">Create sale</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-prod"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Add a product</div><button class="modal-close" onclick="closeM('m-prod')">×</button></div>
+  <div class="fg"><label class="fl">Product name *</label><input class="fi" id="prod-nom" placeholder="e.g. Long-grain rice 10kg"/></div>
+  <div class="frow"><div class="fg"><label class="fl">Reference</label><input class="fi" id="prod-ref" placeholder="RIC-001"/></div><div class="fg"><label class="fl">Barcode</label><input class="fi" id="prod-bc" placeholder="EAN13..."/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Category</label><select class="fs" id="prod-cat" onchange="updateSubcategories()"><option value="Food">Food</option><option value="Hygiene">Hygiene</option><option value="Drinks">Drinks</option><option value="Hardware">Hardware</option><option value="Electronics">Electronics</option><option value="Textiles">Textiles</option><option value="Building materials">Building materials</option><option value="Other">Other</option></select></div><div class="fg"><label class="fl">Subcategory</label><select class="fs" id="prod-scat"></select></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Current stock</label><input class="fi" type="number" id="prod-stk" placeholder="0" oninput="calcMgr()"/></div><div class="fg"><label class="fl">Minimum stock</label><input class="fi" type="number" id="prod-min" placeholder="10"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Cost price (R)</label><input class="fi" type="number" id="prod-pa" placeholder="0" oninput="calcMgr()"/></div><div class="fg"><label class="fl">Selling price (R)</label><input class="fi" type="number" id="prod-pv" placeholder="0" oninput="calcMgr()"/></div></div>
+  <div id="mgr-box" style="display:none;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:9px 12px;font-size:13px;color:#166534;margin-bottom:10px">Margin: <span id="mgr-val" style="font-weight:700"></span></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-prod')">Cancel</button><button class="btn btn-green" onclick="saveProduct()">Save</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-fourn"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New supplier</div><button class="modal-close" onclick="closeM('m-fourn')">×</button></div>
+  <div class="fg"><label class="fl">Name / Company *</label><input class="fi" id="fo-nom"/></div>
+  <div class="frow"><div class="fg"><label class="fl">Phone</label><input class="fi" id="fo-tel"/></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="fo-email"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Category</label><select class="fs" id="fo-cat"><option value="Food">Food</option><option value="Hygiene">Hygiene</option><option>Import-export</option><option value="Construction">Construction</option><option value="Electronics">Electronics</option><option value="Other">Other</option></select></div><div class="fg"><label class="fl">Address</label><input class="fi" id="fo-adr"/></div></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-fourn')">Cancel</button><button class="btn btn-green" onclick="saveSupplier()">Save</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-mouv"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New transaction</div><button class="modal-close" onclick="closeM('m-mouv')">×</button></div>
+  <div class="fg"><label class="fl">Type</label><div style="display:flex;gap:8px;margin-top:4px"><button class="btn btn-success" id="mv-in" onclick="setMvT('in')" style="flex:1;justify-content:center">↑ In</button><button class="btn btn-outline" id="mv-out" onclick="setMvT('out')" style="flex:1;justify-content:center">↓ Out</button></div><input type="hidden" id="mv-type" value="in"/></div>
+  <div class="frow"><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="mv-date"/></div><div class="fg"><label class="fl">Amount (R) *</label><input class="fi" type="number" id="mv-mont" placeholder="0"/></div></div>
+  <div class="fg"><label class="fl">Description *</label><input class="fi" id="mv-lib" placeholder="e.g. Sale Invoice F-041"/></div>
+  <div class="fg" id="mv-mode-wrap"><label class="fl">Payment method</label><select class="fs" id="mv-mode" onchange="syncTreasuryAccountFromMode()"><option value="Cash">Cash</option><option>Mobile Money (MTN)</option><option>Mobile Money (Airtel)</option><option value="Bank transfer">Bank transfer</option></select></div>
+  <div class="fg" id="mv-account-wrap"><label class="fl">Account</label><select class="fs" id="mv-account"><option value="till">Main till</option><option value="mobile">Mobile Money</option><option value="bank">Bank</option></select></div>
+  <div class="frow" id="mv-transfer-wrap" style="display:none"><div class="fg"><label class="fl">Source account</label><select class="fs" id="mv-source"><option value="till">Main till</option><option value="mobile">Mobile Money</option><option value="bank">Bank</option></select></div><div class="fg"><label class="fl">Destination account</label><select class="fs" id="mv-destination"><option value="mobile">Mobile Money</option><option value="bank">Bank</option><option value="till">Main till</option></select></div></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-mouv')">Cancel</button><button class="btn btn-green" onclick="saveMovement()">Save</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-treso-options"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Treasury tools</div><button class="modal-close" onclick="closeM('m-treso-options')">×</button></div>
+  <div id="treso-options-balances" class="alert-box ab-blue" style="margin-bottom:14px"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <button class="btn btn-green" onclick="closeM('m-treso-options');openTreasuryOperation('in')">↑ Add income</button>
+    <button class="btn btn-danger" onclick="closeM('m-treso-options');openTreasuryOperation('out')">↓ Add outgoing</button>
+    <button class="btn btn-outline" onclick="closeM('m-treso-options');openTreasuryOperation('transfer')">↔ Transfer</button>
+    <button class="btn btn-outline" onclick="closeM('m-treso-options');genReport('treasury')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Treasury report</button>
+  </div>
+</div></div>
+
+<div class="modal-overlay" id="m-depense"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New expense</div><button class="modal-close" onclick="closeM('m-depense')">×</button></div>
+  <div class="fg"><label class="fl">Description *</label><input class="fi" id="dep-lib" placeholder="e.g. Goods purchase"/></div>
+  <div class="frow"><div class="fg"><label class="fl">Amount (R) *</label><input class="fi" type="number" id="dep-mont" placeholder="0"/></div><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="dep-date"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Category</label><select class="fs" id="dep-cat"><option value="Stock purchase">Stock purchase</option><option value="Rent">Rent</option><option value="Salaries">Salaries</option><option>Transport</option><option value="Electricity">Electricity</option><option value="Other">Other</option></select></div><div class="fg"><label class="fl">Payment method</label><select class="fs" id="dep-mode"><option value="Cash">Cash</option><option>Mobile Money</option><option value="Bank transfer">Bank transfer</option></select></div></div>
+  <div class="fg">
+    <label class="fl">Recurrence</label>
+    <select class="fs" id="dep-recur">
+      <option value="">No recurrence</option>
+      <option value="mensuel">Monthly (same day each month)</option>
+      <option value="hebdo">Weekly</option>
+    </select>
+  </div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-depense')">Cancel</button><button class="btn btn-green" onclick="saveExpense()">Save</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-emp"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New employee</div><button class="modal-close" onclick="closeM('m-emp')">×</button></div>
+  <div class="frow"><div class="fg"><label class="fl">First name *</label><input class="fi" id="emp-pr"/></div><div class="fg"><label class="fl">Last name *</label><input class="fi" id="emp-nm"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Position</label><input class="fi" id="emp-po" placeholder="Cashier, Storekeeper..."/></div><div class="fg"><label class="fl">Gross salary (R)</label><input class="fi" type="number" id="emp-sal" oninput="showCNSS()"/></div></div>
+  <div id="cnss-box" style="display:none;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 12px;font-size:12.5px;color:#92400e;margin-bottom:10px">Employer CNSS (16.5%): <span id="cnss-v" style="font-weight:700"></span></div>
+  <div class="frow"><div class="fg"><label class="fl">Phone</label><input class="fi" id="emp-tel"/></div><div class="fg"><label class="fl">Hire date</label><input class="fi" type="date" id="emp-dt"/></div></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-emp')">Cancel</button><button class="btn btn-green" onclick="saveEmployee()">Save</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-scanner"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Scan a barcode</div><button class="modal-close" onclick="closeM('m-scanner')">×</button></div>
+  <div class="scanner-zone" onclick="simScan()" style="margin-bottom:14px">
+    <div style="font-size:32px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg></div>
+    <div style="font-size:13px;font-weight:600;color:#374151">Click to simulate a scan</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px">Plug in a USB scanner for automatic scanning</div>
+  </div>
+  <div class="fg"><label class="fl">Or enter manually</label><input class="fi" id="bc-in" placeholder="EAN13 / reference..." oninput="lookBC(this.value)" style="font-family:'Inter',sans-serif"/></div>
+  <div id="bc-res"></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-scanner')">Close</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-inv"><div class="modal modal-lg">
+  <div class="modal-hdr"><div class="modal-title">Sale preview</div><button class="modal-close" onclick="closeM('m-inv')">×</button></div>
+  <div id="inv-content"></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-inv')">Close</button><button class="btn btn-outline" onclick="doPrint()"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg> Print</button><button class="btn btn-green" onclick="doPDF()"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> PDF</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-ticket"><div class="modal" style="max-width:320px">
+  <div class="modal-hdr"><div class="modal-title">Receipt</div><button class="modal-close" onclick="closeM('m-ticket')">×</button></div>
+  <div id="ticket-content"></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-ticket')">Close</button><button class="btn btn-green" onclick="printTicketNow()"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg> Print</button></div>
+</div></div>
+
+<div class="confirm-wrap" id="m-confirm"><div class="confirm-box">
+  <div class="confirm-title">Confirm</div>
+  <div class="confirm-msg" id="confirm-msg">Are you sure?</div>
+  <div class="alert-box ab-red"><span><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg></span><span>This action cannot be undone.</span></div>
+  <div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn btn-outline" onclick="closeM('m-confirm')">Cancel</button><button class="btn btn-danger" id="confirm-ok">Confirm</button></div>
+</div></div>
+
+<div class="toast-container" id="toasts"></div>
+
+<div class="modal-overlay" id="m-register-shop"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Create my shop</div><button class="modal-close" onclick="closeM('m-register-shop')">×</button></div>
+  <div class="fg"><label class="fl">Business name *</label><input class="fi" id="reg-shop-name" placeholder="e.g. Central Shop"/></div>
+  <div class="frow"><div class="fg"><label class="fl">Address</label><input class="fi" id="reg-shop-address"/></div><div class="fg"><label class="fl">City</label><input class="fi" id="reg-shop-city"/></div></div>
+  <div class="fg"><label class="fl">Manager name</label><input class="fi" id="reg-admin-name"/></div>
+  <div class="frow"><div class="fg"><label class="fl">Admin username *</label><input class="fi" id="reg-admin-login" autocomplete="username"/></div><div class="fg"><label class="fl">Password *</label><input class="fi" type="password" id="reg-admin-password" minlength="8" autocomplete="new-password"/></div></div>
+  <div class="alert-box ab-blue"><span>ℹ</span><span>The shop will be created empty. You can then add the phone number, RCCM, NIU, products and users.</span></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-register-shop')">Cancel</button><button class="btn btn-green" id="reg-submit" onclick="registerBoutique()">Create and start</button></div>
+</div></div>
+
+<div class="welcome-overlay" id="welcome-shop">
+  <div class="welcome-shell">
+    <button class="welcome-close" type="button" onclick="closeWelcome()" aria-label="Close">×</button>
+    <div class="welcome-brand"><span class="welcome-brand-mark">K</span><span>Kinta</span></div>
+    <div class="welcome-badge">YOUR WORKSPACE IS READY</div>
+    <h1>Welcome to Kinta, <span id="welcome-shop-name">your shop</span>.</h1>
+    <p class="welcome-lead">We're glad to have you. We'll set up your shop together, step by step. Your progress will stay visible on the dashboard.</p>
+    <div class="welcome-progress"><span></span><span></span><span></span><span></span></div>
+    <div class="welcome-steps">
+      <button type="button" onclick="welcomeGo('parametres')"><span class="welcome-step-num">01</span><span><strong>Complete business details</strong><small>Phone, address, RCCM, NIU and logo</small></span><b>→</b></button>
+      <button type="button" onclick="welcomeGo('produits')"><span class="welcome-step-num">02</span><span><strong>Add products</strong><small>Catalogue, prices and opening stock</small></span><b>→</b></button>
+      <button type="button" onclick="welcomeGo('utilisateurs')"><span class="welcome-step-num">03</span><span><strong>Create your team</strong><small>Administrators, cashiers and salespeople</small></span><b>→</b></button>
+      <button type="button" onclick="welcomeGo('caisse')"><span class="welcome-step-num">04</span><span><strong>Make a test sale</strong><small>Open the till and check your first receipt</small></span><b>→</b></button>
+    </div>
+    <div class="welcome-footer"><div><strong>You won't be left on your own.</strong><span>The guide stays available from the dashboard and "Need help".</span></div><button class="btn btn-green" type="button" onclick="closeWelcome();startNextSetupStep()">Start step 1</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-help"><div class="modal modal-lg help-center">
+  <div class="modal-hdr"><div><div class="modal-title">Kinta help centre</div><div class="help-subtitle">What would you like to do?</div></div><button class="modal-close" onclick="closeM('m-help')">×</button></div>
+  <div class="help-actions">
+    <button type="button" onclick="closeM('m-help');nav('dashboard',document.querySelector('.sb-item[data-p=dashboard]'));setTimeout(()=>g('setup-guide')?.scrollIntoView({behavior:'smooth'}),100)"><strong><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg> Resume the getting-started guide</strong><span>See your steps and progress.</span></button>
+    <button type="button" onclick="closeM('m-help');welcomeGo('produits')"><strong><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg> Add my first product</strong><span>Set the cost price, selling price and stock.</span></button>
+    <button type="button" onclick="closeM('m-help');welcomeGo('caisse')"><strong><svg class="ic" aria-hidden="true"><use href="#i-receipt"/></svg> Make a sale</strong><span>Go to the till and prepare your first receipt.</span></button>
+    <button type="button" onclick="closeM('m-help');welcomeGo('utilisateurs')"><strong><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg> Add a team member</strong><span>Create access suited to each person's role.</span></button>
+  </div>
+  <div class="help-tip"><strong>Security tip</strong><span>Create a personal account for each employee. Never share the administrator account with cashiers.</span></div>
+  <div class="modal-ftr"><button class="btn btn-outline" type="button" onclick="closeM('m-help')">Close</button></div>
+</div></div>
+
+
+<!-- User modal -->
+<div class="modal-overlay" id="m-user"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Manage a user</div><button class="modal-close" onclick="closeM('m-user')">×</button></div>
+  <div class="fg"><label class="fl">Username *</label><input class="fi" id="u-login" placeholder="e.g. seller2"/></div>
+  <div class="fg"><label class="fl">Password *</label><input class="fi" type="password" id="u-pass" placeholder="Minimum 6 characters"/></div>
+  <div class="fg"><label class="fl">Role</label><select class="fs" id="u-role"><option value="admin">Administrator (full access)</option><option value="cashier">Cashier (till + sales)</option><option value="salesperson">Salesperson (read only)</option><option value="accountant">Accountant (accounting only)</option></select></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-user')">Cancel</button><button class="btn btn-green" onclick="saveUser()">Save</button></div>
+</div></div>
+
+<!-- Change password modal -->
+<div class="modal-overlay" id="m-chg-mdp"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Change my password</div><button class="modal-close" onclick="closeM('m-chg-mdp')">×</button></div>
+  <div class="fg"><label class="fl">Current password</label><input class="fi" type="password" id="mdp-old"/></div>
+  <div class="fg"><label class="fl">New password</label><input class="fi" type="password" id="mdp-new" placeholder="Minimum 6 characters"/></div>
+  <div class="fg"><label class="fl">Confirm</label><input class="fi" type="password" id="mdp-conf"/></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-chg-mdp')">Cancel</button><button class="btn btn-green" onclick="changePassword()">Change</button></div>
+</div></div>
+
+
+<!-- Leave modal -->
+<div class="modal-overlay" id="m-conge"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New leave request</div><button class="modal-close" onclick="closeM('m-conge')">×</button></div>
+  <div class="fg"><label class="fl">Employee *</label><select class="fs" id="cg-emp"></select></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Type</label><select class="fs" id="cg-type"><option value="Paid leave">Paid leave</option><option>Absence</option><option value="Sick leave">Sick leave</option><option value="Maternity leave">Maternity leave</option><option value="Unpaid leave">Unpaid leave</option></select></div>
+    <div class="fg"><label class="fl">Status</label><select class="fs" id="cg-statut"><option value="Approved">Approved</option><option value="Pending">Pending</option><option value="Refused">Refused</option></select></div>
+  </div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Start date *</label><input class="fi" type="date" id="cg-debut"/></div>
+    <div class="fg"><label class="fl">End date *</label><input class="fi" type="date" id="cg-fin"/></div>
+  </div>
+  <div class="fg"><label class="fl">Reason</label><textarea class="fta" id="cg-motif" rows="2" placeholder="Reason for leave..."></textarea></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-conge')">Cancel</button><button class="btn btn-green" onclick="saveLeave()">Save</button></div>
+</div></div>
+
+<!-- Product CSV import modal -->
+<div class="modal-overlay" id="m-import-csv"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Import products (CSV)</div><button class="modal-close" onclick="closeM('m-import-csv')">×</button></div>
+  <div class="alert-box ab-blue" style="margin-bottom:14px">
+    <span>ℹ</span>
+    <div><strong>Expected format:</strong> name, reference, category, stock, min_stock, cost_price, selling_price (prices in rand)<br>
+    <a onclick="downloadCSVTemplate()" style="color:#1e40af;cursor:pointer;font-weight:600"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Download CSV template</a></div>
+  </div>
+  <div class="fg">
+    <label class="fl">CSV file</label>
+    <input type="file" id="csv-file" accept=".csv,.txt" class="fi" onchange="previewCSV(this)"/>
+  </div>
+  <div id="csv-preview" style="display:none;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:600;color:#374151;margin-bottom:6px">Preview (<span id="csv-count">0</span> products detected)</div>
+    <div style="max-height:180px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:8px">
+      <table style="width:100%;font-size:11px;border-collapse:collapse" id="csv-prev-table"></table>
+    </div>
+  </div>
+  <div class="modal-ftr">
+    <button class="btn btn-outline" onclick="closeM('m-import-csv')">Cancel</button>
+    <button class="btn btn-green" id="csv-import-btn" onclick="importCSV()" disabled><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Import</button>
+  </div>
+</div></div>
+
+<!-- Return modal -->
+<div class="modal-overlay" id="m-retour"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New return</div><button class="modal-close" onclick="closeM('m-retour')">×</button></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Return type</label><select class="fs" id="ret-type" disabled><option value="Customer">Customer</option></select></div>
+    <div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="ret-date"/></div>
+  </div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Original receipt / invoice no.</label><input class="fi" id="ret-ticket" placeholder="TK-2026-00001" oninput="scheduleReturnTicketLookup()"/></div>
+    <div class="fg"><label class="fl">Customer</label><input class="fi" id="ret-nom" placeholder="Filled from the receipt" readonly/></div>
+  </div>
+  <div class="fg"><label class="fl">Returned product *</label><select class="fs" id="ret-prod" onchange="updateReturnAmount()"><option value="">Enter the receipt number first</option></select></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Returned quantity *</label><input class="fi" type="number" id="ret-qty" value="1" min="1" oninput="updateReturnAmount()"/></div>
+    <div class="fg"><label class="fl">Amount refunded (R) — calculated automatically</label><input class="fi" type="number" id="ret-montant" value="0" readonly/></div>
+  </div>
+  <div class="fg"><label class="fl">Reason for return</label><select class="fs" id="ret-motif"><option value="Defective product">Defective product</option><option value="Wrong product delivered">Wrong product delivered</option><option value="Expired product">Expired product</option><option value="Quantity error">Quantity error</option><option value="Customer dissatisfaction">Customer dissatisfaction</option><option value="Other">Other</option></select></div>
+  <div class="fg"><label class="fl">Action</label><select class="fs" id="ret-action"><option value="Refunded">Refund</option><option value="Exchanged">Product exchange</option><option value="Pending">Put on hold</option><option value="Refused">Reject the return</option></select></div>
+  <div class="fg"><label class="fl">Notes</label><textarea class="fta" id="ret-notes" placeholder="Comments..."></textarea></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-retour')">Cancel</button><button class="btn btn-green" onclick="saveReturn()">Save</button></div>
+</div></div>
+
+<!-- Supplier order modal -->
+<div class="modal-overlay" id="m-commande"><div class="modal modal-lg">
+  <div class="modal-hdr"><div class="modal-title">New supplier order</div><button class="modal-close" onclick="closeM('m-commande')">×</button></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Supplier *</label><select class="fs" id="cmd-fourn"><option value="">— Select —</option></select></div>
+    <div class="fg"><label class="fl">Order date</label><input class="fi" type="date" id="cmd-date"/></div>
+  </div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Expected delivery on</label><input class="fi" type="date" id="cmd-livraison"/></div>
+    <div class="fg"><label class="fl">Status</label><select class="fs" id="cmd-statut"><option value="Draft">Draft</option><option value="Sent">Sent</option><option value="Confirmed">Confirmed</option></select></div>
+  </div>
+  <div class="modal-sec">Items ordered</div>
+  <div id="cmd-lignes"></div>
+  <button class="btn btn-outline btn-sm" onclick="addLine('cmd-lignes','cmd-tot')" style="margin-top:8px">+ Add a product</button>
+  <div style="text-align:right;margin-top:12px;padding-top:10px;border-top:1px solid #e2e8f0">
+    <div style="font-size:12px;color:#64748b">ESTIMATED TOTAL</div>
+    <div style="font-size:20px;font-weight:700;color:#16a34a" id="cmd-tot">R&nbsp;0.00</div>
+  </div>
+  <div class="fg" style="margin-top:12px"><label class="fl">Notes / Delivery instructions</label><textarea class="fta" id="cmd-notes" placeholder="e.g. Deliver to the main store..."></textarea></div>
+  <div class="modal-ftr">
+    <button class="btn btn-outline" onclick="closeM('m-commande')">Cancel</button>
+    <button class="btn btn-outline" onclick="saveOrder('Draft')"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg> Draft</button>
+    <button class="btn btn-green" onclick="saveOrder('Sent')"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg> Send order</button>
+  </div>
+</div></div>
+
+<div class="modal-overlay" id="m-reception-achat"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Receive order</div><button class="modal-close" onclick="closeM('m-reception-achat')">×</button></div>
+  <div class="alert-box ab-blue" id="recap-reception" style="margin-bottom:14px"></div>
+  <input type="hidden" id="rec-cmd-index"/>
+  <div class="frow"><div class="fg"><label class="fl">Supplier invoice no. *</label><input class="fi" id="rec-facture" placeholder="FAC-FOUR-001"/></div><div class="fg"><label class="fl">Receipt date</label><input class="fi" type="date" id="rec-date"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Additional costs (transport, customs…)</label><input class="fi" type="number" min="0" id="rec-frais" value="0" oninput="updateReceptionTotal()"/></div><div class="fg"><label class="fl">Amount paid now</label><input class="fi" type="number" min="0" id="rec-paye" value="0" oninput="updateReceptionTotal()"/></div></div>
+  <div class="fg"><label class="fl">Payment method</label><select class="fs" id="rec-mode"><option value="Cash">Cash</option><option>Mobile Money</option><option value="Bank transfer">Bank transfer</option></select></div>
+  <div class="alert-box ab-amber" id="rec-solde" style="margin-top:8px"></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-reception-achat')">Cancel</button><button class="btn btn-green" onclick="confirmPurchaseReceipt()">Receive and post</button></div>
+</div></div>
+
+<div class="modal-overlay" id="m-paiement-achat"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">Pay a supplier debt</div><button class="modal-close" onclick="closeM('m-paiement-achat')">×</button></div>
+  <input type="hidden" id="pay-ach-index"/>
+  <div class="alert-box ab-amber" id="pay-ach-recap" style="margin-bottom:14px"></div>
+  <div class="frow"><div class="fg"><label class="fl">Amount to pay *</label><input class="fi" type="number" min="1" id="pay-ach-montant"/></div><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="pay-ach-date"/></div></div>
+  <div class="fg"><label class="fl">Payment method</label><select class="fs" id="pay-ach-mode"><option value="Cash">Cash</option><option>Mobile Money</option><option value="Bank transfer">Bank transfer</option></select></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-paiement-achat')">Cancel</button><button class="btn btn-green" onclick="savePurchasePayment()">Record payment</button></div>
+</div></div>
+
+<!-- Product history modal -->
+<div class="modal-overlay" id="m-prod-hist"><div class="modal modal-lg">
+  <div class="modal-hdr"><div class="modal-title" id="prod-hist-title">Product movements</div><button class="modal-close" onclick="closeM('m-prod-hist')">×</button></div>
+  <div id="prod-hist-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px"></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Date</th><th>Type</th><th>Quantity</th><th>Reference</th><th>New stock</th></tr></thead>
+    <tbody id="t-prod-hist"></tbody>
+  </table></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-prod-hist')">Close</button></div>
+</div></div>
+
+<!-- Customer history modal -->
+<div class="modal-overlay" id="m-cli-hist"><div class="modal modal-lg">
+  <div class="modal-hdr"><div class="modal-title" id="cli-hist-title">Customer history</div><button class="modal-close" onclick="closeM('m-cli-hist')">×</button></div>
+  <div id="cli-hist-kpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px"></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Date</th><th>Receipt no.</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead>
+    <tbody id="t-cli-hist"></tbody>
+  </table></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-cli-hist')">Close</button></div>
+</div></div>
+
+<!-- Accounting entry modal -->
+<div class="modal-overlay" id="m-ecriture"><div class="modal">
+  <div class="modal-hdr"><div class="modal-title">New journal entry</div><button class="modal-close" onclick="closeM('m-ecriture')">×</button></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="ecr-date"/></div>
+    <div class="fg"><label class="fl">Document no.</label><input class="fi" id="ecr-piece" placeholder="FAC-001, DEVIS-001..."/></div>
+  </div>
+  <div class="fg"><label class="fl">Label *</label><input class="fi" id="ecr-lib" placeholder="e.g. Sale Invoice F-128"/></div>
+  <div class="frow">
+    <div class="fg"><label class="fl">Account (OHADA number)</label><select class="fs" id="ecr-compte">
+      <option value="70">70 — Sales of goods</option>
+      <option value="60">60 — Purchases of goods</option>
+      <option value="61">61 — Operating expenses</option>
+      <option value="62">62 — Rent &amp; rental charges</option>
+      <option value="63">63 — Transport &amp; travel</option>
+      <option value="64">64 — Staff costs</option>
+      <option value="44c">44 — VAT collected</option>
+      <option value="44d">44 — Deductible VAT</option>
+      <option value="52">52 — Bank</option>
+      <option value="57">57 — Cash</option>
+      <option value="41">41 — Customer receivables</option>
+      <option value="40">40 — Supplier payables</option>
+    </select></div>
+    <div class="fg"><label class="fl">Type</label><select class="fs" id="ecr-type"><option value="debit">Debit</option><option value="credit">Credit</option></select></div>
+  </div>
+  <div class="fg"><label class="fl">Amount (R) *</label><input class="fi" type="number" id="ecr-montant" placeholder="0"/></div>
+  <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-ecriture')">Cancel</button><button class="btn btn-green" onclick="saveEntry()">Save</button></div>
+</div></div>
+
+
+<script src="assets/js/currency.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
