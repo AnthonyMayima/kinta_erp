@@ -1,4 +1,4 @@
-# Kinta v6.6 — web version
+# Kinta — web version
 
 This version splits the original HTML file into a clear web structure, without changing the visual identity or the existing business rules.
 
