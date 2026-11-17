@@ -38,7 +38,7 @@ Kinta can run as two completely separate servers on the same computer. Each one 
 | Address | `http://localhost:3000` | `http://localhost:3001` |
 | How to start | `npm.cmd start` in `kinta-backend` | double-click `start-new-shop.bat` |
 | Database | `kinta-backend/database/kinta.db` | `kinta-backend/database/kinta-new.db` |
-| Content | The **Poto-Poto Shop**, already filled with generated data: products, customers, sales, expenses, employees, returns, supplier orders… | Starts **empty**. Use it to test creating and running a brand-new shop from scratch. |
+| Content | The **Soweto Shop**, already filled with generated data: products, customers, sales, expenses, employees, returns, supplier orders… | Starts **empty**. Use it to test creating and running a brand-new shop from scratch. |
 
 ### Server 1 — the shop with generated data
 
@@ -62,7 +62,7 @@ products and users, opening the till and making the first sale.
 1. Double-click `start-new-shop.bat`, then open `http://localhost:3001`.
 2. On first launch, click **Create a new shop** and fill in the business and its administrator.
 
-This instance uses `kinta-backend/database/kinta-new.db` and never touches the Poto-Poto
+This instance uses `kinta-backend/database/kinta-new.db` and never touches the Soweto Shop
 database `kinta.db`. It also enables a test clock, so you can simulate another date
 to test reports and closing days.
 
@@ -104,7 +104,7 @@ the expenses display, account histories and the Excel colours.
   is enforced. Payments are recorded in **Customers**.
 - Sales show the cashier recorded on the sale. An old sale without this
   information shows "Not specified".
-- In **Treasury**, clicking **Main till**, **Mobile Money** or **Bank** opens its
+- In **Treasury**, clicking **Main till**, **E-wallet** or **Bank** opens its
   history, transfers included. The customer receivables balance is shown with a
   link to payments.
 - **Export treasury (Excel)** downloads a SpreadsheetML `.xml` file that opens in

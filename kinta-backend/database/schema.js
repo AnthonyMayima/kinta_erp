@@ -6,6 +6,7 @@ const path = require('path');
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 const { migrateToEnglish } = require('./english-migration');
+const { migrateToSouthAfrica } = require('./south-africa-migration');
 
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'kinta.db');
 let db = null;
@@ -97,7 +98,7 @@ function initSchema() {
     );
     CREATE TABLE IF NOT EXISTS clients (
       id TEXT PRIMARY KEY, boutique_id TEXT NOT NULL, nom TEXT NOT NULL,
-      tel TEXT, email TEXT, ville TEXT DEFAULT 'Brazzaville', adresse TEXT,
+      tel TEXT, email TEXT, ville TEXT DEFAULT 'Johannesburg', adresse TEXT,
       type TEXT DEFAULT 'Retailer', solde REAL DEFAULT 0, credit REAL DEFAULT 0,
       created_at TEXT DEFAULT (datetime('now')), updated_at TEXT DEFAULT (datetime('now'))
     );
@@ -265,6 +266,8 @@ function initSchema() {
     db.run('ALTER TABLE boutiques ADD COLUMN test_clock_offset_ms REAL');
   // Data created when Kinta stored its values in French.
   if (migrateToEnglish(db)) console.log('Stored values converted to English');
+  // Data created for the Congolese market (phones, cities, Mobile Money, 18% VAT).
+  if (migrateToSouthAfrica(db)) console.log('Stored data moved to the South African market');
 
   // Development account only. In production, the credentials must be
   // supplied explicitly through environment variables.
@@ -274,8 +277,8 @@ function initSchema() {
     const boutiqueId = uuidv4();
     const adminId = uuidv4();
     const adminLogin = process.env.INITIAL_ADMIN_LOGIN || 'admin';
-    const boutiqueNom = process.env.INITIAL_BOUTIQUE_NAME || 'Poto-Poto Shop';
-    db.run('INSERT INTO boutiques (id,nom,ville) VALUES (?,?,?)', [boutiqueId, boutiqueNom, 'Brazzaville']);
+    const boutiqueNom = process.env.INITIAL_BOUTIQUE_NAME || 'Soweto Shop';
+    db.run('INSERT INTO boutiques (id,nom,ville) VALUES (?,?,?)', [boutiqueId, boutiqueNom, 'Johannesburg']);
     db.run('INSERT INTO utilisateurs (id,boutique_id,login,password_hash,role,nom) VALUES (?,?,?,?,?,?)',
       [adminId, boutiqueId, adminLogin, bcrypt.hashSync(adminPassword, 12), 'admin', 'Manager']);
   }

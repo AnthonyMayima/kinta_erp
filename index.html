@@ -467,7 +467,7 @@
             <div class="pay-modes">
               <button class="pay-mode-btn on" id="pay-esp" onclick="setPayMode('Cash')"><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> Cash</button>
               <button class="pay-mode-btn" id="pay-credit" onclick="setPayMode('Credit')">On credit</button>
-              <button class="pay-mode-btn" id="pay-mm" onclick="setPayMode('Mobile Money')"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> Mobile Money</button>
+              <button class="pay-mode-btn" id="pay-mm" onclick="setPayMode('E-wallet')"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> E-wallet</button>
             </div>
             <input type="hidden" id="pos-mode" value="Cash"/>
             <div style="margin-top:10px" id="monnaie-wrap" style="display:none">
@@ -493,7 +493,7 @@
             <div class="pos-day-ca" id="pos-d-ca">R&nbsp;0.00</div>
             <div class="pos-day-sub" id="pos-d-cnt">0 transactions</div>
             <div style="display:flex;gap:8px;margin-top:10px;font-size:12px">
-              <div class="pos-day-method"><div><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> Cash</div><strong id="pos-d-cash">R&nbsp;0.00</strong></div><div class="pos-day-method"><div><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> Mobile Money</div><strong id="pos-d-mm">R&nbsp;0.00</strong></div>
+              <div class="pos-day-method"><div><svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg> Cash</div><strong id="pos-d-cash">R&nbsp;0.00</strong></div><div class="pos-day-method"><div><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg> E-wallet</div><strong id="pos-d-mm">R&nbsp;0.00</strong></div>
             </div>
             <button class="btn btn-outline btn-sm" style="width:100%;justify-content:center;margin-top:10px" onclick="closeTill()">Close the day (Z report)</button>
           </div>
@@ -692,7 +692,7 @@
         <div class="card card-sm" style="cursor:pointer" onclick="openAccountHistory('mobile')" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
             <div style="width:36px;height:36px;background:#fff7ed;border-radius:9px;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-            <div style="font-size:13px;font-weight:500;color:#374151">Mobile Money</div>
+            <div style="font-size:13px;font-weight:500;color:#374151">E-wallet</div>
             <svg style="margin-left:auto;width:16px;height:16px;stroke:#94a3b8;fill:none;stroke-width:2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
           <div style="font-size:22px;font-weight:700;color:#0f172a" id="cpt-mobile">R&nbsp;0.00</div>
@@ -844,9 +844,9 @@
       </div>
       <div class="g2">
         <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('stock')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-package"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Full stock report</div><div style="font-size:12.5px;color:#64748b">Valuation, movements, batches, expiry dates</div></div>
-        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('treasury')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Treasury</div><div style="font-size:12.5px;color:#64748b">Receipts, payments, Mobile Money</div></div>
-        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('hr')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Human resources</div><div style="font-size:12.5px;color:#64748b">Attendance, salaries, employer CNSS 16.5%</div></div>
-        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('balance-sheet')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">DGI monthly statement</div><div style="font-size:12.5px;color:#64748b">Net income, VAT, CNSS, DGI Congo format</div></div>
+        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('treasury')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Treasury</div><div style="font-size:12.5px;color:#64748b">Receipts, payments, E-wallet</div></div>
+        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('hr')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">Human resources</div><div style="font-size:12.5px;color:#64748b">Attendance, salaries, employer UIF + SDL 2%</div></div>
+        <div class="card" style="cursor:pointer;transition:box-shadow .15s" onclick="genReport('balance-sheet')" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.07)'" onmouseout="this.style.boxShadow=''"><div style="font-size:24px;margin-bottom:8px"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></div><div style="font-size:14px;font-weight:600;margin-bottom:4px">SARS monthly statement</div><div style="font-size:12.5px;color:#64748b">Net income, VAT, UIF/SDL, SARS format</div></div>
       </div>
     </div>
 
@@ -866,7 +866,7 @@
         <div class="search-box"><svg class="search-ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input class="search-in" placeholder="Name or position..." oninput="filterT('t-emp',this.value,[0,1])"/></div>
         <button class="btn btn-green" onclick="openEmployeeModal()">+ New employee</button>
       </div>
-      <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Reference</th><th>Employee</th><th>Phone</th><th>Position</th><th>Hire date</th><th>Gross salary</th><th>CNSS (16.5%)</th><th>Attendance</th><th>Status</th><th>Actions</th></tr></thead><tbody id="t-emp"></tbody></table></div><div id="t-emp-pager"></div></div>
+      <div class="card"><div class="tbl-wrap"><table><thead><tr><th>Reference</th><th>Employee</th><th>Phone</th><th>Position</th><th>Hire date</th><th>Gross salary</th><th>UIF + SDL (2%)</th><th>Attendance</th><th>Status</th><th>Actions</th></tr></thead><tbody id="t-emp"></tbody></table></div><div id="t-emp-pager"></div></div>
       </div><!-- /etab-content-employes -->
 
       <div id="etab-content-conges" style="display:none">
@@ -942,7 +942,7 @@
         <div class="km"><div class="km-label">Revenue</div><div class="km-val" style="color:#16a34a" id="cpt-ca">—</div><div class="km-sub">This month (incl. tax)</div></div>
         <div class="km"><div class="km-label">Total expenses</div><div class="km-val" style="color:#ef4444" id="cpt-charges">—</div><div class="km-sub">Expenses + salaries</div></div>
         <div class="km"><div class="km-label">Net income</div><div class="km-val" id="cpt-net">—</div><div class="km-sub">Revenue − Expenses</div></div>
-        <div class="km"><div class="km-label">VAT collected</div><div class="km-val" style="color:#a855f7" id="cpt-tva">—</div><div class="km-sub">Payable to DGI</div></div>
+        <div class="km"><div class="km-label">VAT collected</div><div class="km-val" style="color:#a855f7" id="cpt-tva">—</div><div class="km-sub">Payable to SARS</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px">
         <div class="card">
@@ -1018,7 +1018,7 @@
               <span style="font-weight:700;font-size:16px;color:#a855f7" id="tva-nette">—</span>
             </div>
             <div class="alert-box ab-amber" style="margin-top:12px">
-              <span><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span><span>Payable to DGI Congo before <strong>the 15th of next month</strong></span>
+              <span><svg class="ic" aria-hidden="true"><use href="#i-calendar"/></svg></span><span>Payable to SARS (VAT201) by <strong>the 25th of next month</strong></span>
             </div>
             <button class="btn btn-green" style="width:100%;justify-content:center;margin-top:12px" onclick="genReport('vat')"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg> Generate VAT return PDF</button>
           </div>
@@ -1241,7 +1241,7 @@
 <div class="modal-overlay" id="m-facture"><div class="modal modal-lg">
   <div class="modal-hdr"><div class="modal-title">New sale</div><button class="modal-close" onclick="closeM('m-facture')">×</button></div>
   <div class="frow"><div class="fg"><label class="fl">Customer *</label><select class="fs" id="f-cli"><option value="">— Select —</option></select></div><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="f-date"/></div></div>
-  <div class="frow"><div class="fg"><label class="fl">Payment method</label><select class="fs" id="f-mode"><option value="Cash">Cash</option><option>Mobile Money (MTN)</option><option>Mobile Money (Airtel)</option><option value="Bank transfer">Bank transfer</option></select></div><div class="fg"><label class="fl">Due date</label><input class="fi" type="date" id="f-ech"/></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Payment method</label><select class="fs" id="f-mode"><option value="Cash">Cash</option><option>E-wallet (SnapScan)</option><option>E-wallet (Zapper)</option><option value="Bank transfer">Bank transfer</option></select></div><div class="fg"><label class="fl">Due date</label><input class="fi" type="date" id="f-ech"/></div></div>
   <div class="modal-sec">Lines</div>
   <div id="f-lignes"></div>
   <button class="btn btn-outline btn-sm" onclick="addLine('f-lignes','f-tot')" style="margin-top:8px">+ Line</button>
@@ -1276,9 +1276,9 @@
   <div class="fg"><label class="fl">Type</label><div style="display:flex;gap:8px;margin-top:4px"><button class="btn btn-success" id="mv-in" onclick="setMvT('in')" style="flex:1;justify-content:center">↑ In</button><button class="btn btn-outline" id="mv-out" onclick="setMvT('out')" style="flex:1;justify-content:center">↓ Out</button></div><input type="hidden" id="mv-type" value="in"/></div>
   <div class="frow"><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="mv-date"/></div><div class="fg"><label class="fl">Amount (R) *</label><input class="fi" type="number" id="mv-mont" placeholder="0"/></div></div>
   <div class="fg"><label class="fl">Description *</label><input class="fi" id="mv-lib" placeholder="e.g. Sale Invoice F-041"/></div>
-  <div class="fg" id="mv-mode-wrap"><label class="fl">Payment method</label><select class="fs" id="mv-mode" onchange="syncTreasuryAccountFromMode()"><option value="Cash">Cash</option><option>Mobile Money (MTN)</option><option>Mobile Money (Airtel)</option><option value="Bank transfer">Bank transfer</option></select></div>
-  <div class="fg" id="mv-account-wrap"><label class="fl">Account</label><select class="fs" id="mv-account"><option value="till">Main till</option><option value="mobile">Mobile Money</option><option value="bank">Bank</option></select></div>
-  <div class="frow" id="mv-transfer-wrap" style="display:none"><div class="fg"><label class="fl">Source account</label><select class="fs" id="mv-source"><option value="till">Main till</option><option value="mobile">Mobile Money</option><option value="bank">Bank</option></select></div><div class="fg"><label class="fl">Destination account</label><select class="fs" id="mv-destination"><option value="mobile">Mobile Money</option><option value="bank">Bank</option><option value="till">Main till</option></select></div></div>
+  <div class="fg" id="mv-mode-wrap"><label class="fl">Payment method</label><select class="fs" id="mv-mode" onchange="syncTreasuryAccountFromMode()"><option value="Cash">Cash</option><option>E-wallet (SnapScan)</option><option>E-wallet (Zapper)</option><option value="Bank transfer">Bank transfer</option></select></div>
+  <div class="fg" id="mv-account-wrap"><label class="fl">Account</label><select class="fs" id="mv-account"><option value="till">Main till</option><option value="mobile">E-wallet</option><option value="bank">Bank</option></select></div>
+  <div class="frow" id="mv-transfer-wrap" style="display:none"><div class="fg"><label class="fl">Source account</label><select class="fs" id="mv-source"><option value="till">Main till</option><option value="mobile">E-wallet</option><option value="bank">Bank</option></select></div><div class="fg"><label class="fl">Destination account</label><select class="fs" id="mv-destination"><option value="mobile">E-wallet</option><option value="bank">Bank</option><option value="till">Main till</option></select></div></div>
   <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-mouv')">Cancel</button><button class="btn btn-green" onclick="saveMovement()">Save</button></div>
 </div></div>
 
@@ -1297,7 +1297,7 @@
   <div class="modal-hdr"><div class="modal-title">New expense</div><button class="modal-close" onclick="closeM('m-depense')">×</button></div>
   <div class="fg"><label class="fl">Description *</label><input class="fi" id="dep-lib" placeholder="e.g. Goods purchase"/></div>
   <div class="frow"><div class="fg"><label class="fl">Amount (R) *</label><input class="fi" type="number" id="dep-mont" placeholder="0"/></div><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="dep-date"/></div></div>
-  <div class="frow"><div class="fg"><label class="fl">Category</label><select class="fs" id="dep-cat"><option value="Stock purchase">Stock purchase</option><option value="Rent">Rent</option><option value="Salaries">Salaries</option><option>Transport</option><option value="Electricity">Electricity</option><option value="Other">Other</option></select></div><div class="fg"><label class="fl">Payment method</label><select class="fs" id="dep-mode"><option value="Cash">Cash</option><option>Mobile Money</option><option value="Bank transfer">Bank transfer</option></select></div></div>
+  <div class="frow"><div class="fg"><label class="fl">Category</label><select class="fs" id="dep-cat"><option value="Stock purchase">Stock purchase</option><option value="Rent">Rent</option><option value="Salaries">Salaries</option><option>Transport</option><option value="Electricity">Electricity</option><option value="Other">Other</option></select></div><div class="fg"><label class="fl">Payment method</label><select class="fs" id="dep-mode"><option value="Cash">Cash</option><option>E-wallet</option><option value="Bank transfer">Bank transfer</option></select></div></div>
   <div class="fg">
     <label class="fl">Recurrence</label>
     <select class="fs" id="dep-recur">
@@ -1313,7 +1313,7 @@
   <div class="modal-hdr"><div class="modal-title">New employee</div><button class="modal-close" onclick="closeM('m-emp')">×</button></div>
   <div class="frow"><div class="fg"><label class="fl">First name *</label><input class="fi" id="emp-pr"/></div><div class="fg"><label class="fl">Last name *</label><input class="fi" id="emp-nm"/></div></div>
   <div class="frow"><div class="fg"><label class="fl">Position</label><input class="fi" id="emp-po" placeholder="Cashier, Storekeeper..."/></div><div class="fg"><label class="fl">Gross salary (R)</label><input class="fi" type="number" id="emp-sal" oninput="showCNSS()"/></div></div>
-  <div id="cnss-box" style="display:none;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 12px;font-size:12.5px;color:#92400e;margin-bottom:10px">Employer CNSS (16.5%): <span id="cnss-v" style="font-weight:700"></span></div>
+  <div id="cnss-box" style="display:none;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 12px;font-size:12.5px;color:#92400e;margin-bottom:10px">Employer UIF + SDL (2%): <span id="cnss-v" style="font-weight:700"></span></div>
   <div class="frow"><div class="fg"><label class="fl">Phone</label><input class="fi" id="emp-tel"/></div><div class="fg"><label class="fl">Hire date</label><input class="fi" type="date" id="emp-dt"/></div></div>
   <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-emp')">Cancel</button><button class="btn btn-green" onclick="saveEmployee()">Save</button></div>
 </div></div>
@@ -1357,7 +1357,7 @@
   <div class="frow"><div class="fg"><label class="fl">Address</label><input class="fi" id="reg-shop-address"/></div><div class="fg"><label class="fl">City</label><input class="fi" id="reg-shop-city"/></div></div>
   <div class="fg"><label class="fl">Manager name</label><input class="fi" id="reg-admin-name"/></div>
   <div class="frow"><div class="fg"><label class="fl">Admin username *</label><input class="fi" id="reg-admin-login" autocomplete="username"/></div><div class="fg"><label class="fl">Password *</label><input class="fi" type="password" id="reg-admin-password" minlength="8" autocomplete="new-password"/></div></div>
-  <div class="alert-box ab-blue"><span>ℹ</span><span>The shop will be created empty. You can then add the phone number, RCCM, NIU, products and users.</span></div>
+  <div class="alert-box ab-blue"><span>ℹ</span><span>The shop will be created empty. You can then add the phone number, company registration and VAT numbers, products and users.</span></div>
   <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-register-shop')">Cancel</button><button class="btn btn-green" id="reg-submit" onclick="registerBoutique()">Create and start</button></div>
 </div></div>
 
@@ -1370,7 +1370,7 @@
     <p class="welcome-lead">We're glad to have you. We'll set up your shop together, step by step. Your progress will stay visible on the dashboard.</p>
     <div class="welcome-progress"><span></span><span></span><span></span><span></span></div>
     <div class="welcome-steps">
-      <button type="button" onclick="welcomeGo('parametres')"><span class="welcome-step-num">01</span><span><strong>Complete business details</strong><small>Phone, address, RCCM, NIU and logo</small></span><b>→</b></button>
+      <button type="button" onclick="welcomeGo('parametres')"><span class="welcome-step-num">01</span><span><strong>Complete business details</strong><small>Phone, address, company reg. and VAT numbers, logo</small></span><b>→</b></button>
       <button type="button" onclick="welcomeGo('produits')"><span class="welcome-step-num">02</span><span><strong>Add products</strong><small>Catalogue, prices and opening stock</small></span><b>→</b></button>
       <button type="button" onclick="welcomeGo('utilisateurs')"><span class="welcome-step-num">03</span><span><strong>Create your team</strong><small>Administrators, cashiers and salespeople</small></span><b>→</b></button>
       <button type="button" onclick="welcomeGo('caisse')"><span class="welcome-step-num">04</span><span><strong>Make a test sale</strong><small>Open the till and check your first receipt</small></span><b>→</b></button>
@@ -1505,7 +1505,7 @@
   <input type="hidden" id="rec-cmd-index"/>
   <div class="frow"><div class="fg"><label class="fl">Supplier invoice no. *</label><input class="fi" id="rec-facture" placeholder="FAC-FOUR-001"/></div><div class="fg"><label class="fl">Receipt date</label><input class="fi" type="date" id="rec-date"/></div></div>
   <div class="frow"><div class="fg"><label class="fl">Additional costs (transport, customs…)</label><input class="fi" type="number" min="0" id="rec-frais" value="0" oninput="updateReceptionTotal()"/></div><div class="fg"><label class="fl">Amount paid now</label><input class="fi" type="number" min="0" id="rec-paye" value="0" oninput="updateReceptionTotal()"/></div></div>
-  <div class="fg"><label class="fl">Payment method</label><select class="fs" id="rec-mode"><option value="Cash">Cash</option><option>Mobile Money</option><option value="Bank transfer">Bank transfer</option></select></div>
+  <div class="fg"><label class="fl">Payment method</label><select class="fs" id="rec-mode"><option value="Cash">Cash</option><option>E-wallet</option><option value="Bank transfer">Bank transfer</option></select></div>
   <div class="alert-box ab-amber" id="rec-solde" style="margin-top:8px"></div>
   <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-reception-achat')">Cancel</button><button class="btn btn-green" onclick="confirmPurchaseReceipt()">Receive and post</button></div>
 </div></div>
@@ -1515,7 +1515,7 @@
   <input type="hidden" id="pay-ach-index"/>
   <div class="alert-box ab-amber" id="pay-ach-recap" style="margin-bottom:14px"></div>
   <div class="frow"><div class="fg"><label class="fl">Amount to pay *</label><input class="fi" type="number" min="1" id="pay-ach-montant"/></div><div class="fg"><label class="fl">Date</label><input class="fi" type="date" id="pay-ach-date"/></div></div>
-  <div class="fg"><label class="fl">Payment method</label><select class="fs" id="pay-ach-mode"><option value="Cash">Cash</option><option>Mobile Money</option><option value="Bank transfer">Bank transfer</option></select></div>
+  <div class="fg"><label class="fl">Payment method</label><select class="fs" id="pay-ach-mode"><option value="Cash">Cash</option><option>E-wallet</option><option value="Bank transfer">Bank transfer</option></select></div>
   <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-paiement-achat')">Cancel</button><button class="btn btn-green" onclick="savePurchasePayment()">Record payment</button></div>
 </div></div>
 

@@ -1,4 +1,4 @@
-# Render Blueprint: Kinta Server 1 (Poto-Poto Shop demo) on the free plan.
+# Render Blueprint: Kinta Server 1 (Soweto Shop demo) on the free plan.
 # Free plan = no persistent disk: every restart or wake-up from sleep
 # starts again from the demo data in kinta-backend/database/kinta.db.
 services:

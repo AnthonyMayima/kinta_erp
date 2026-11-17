@@ -2,7 +2,7 @@ node_modules/
 *.db
 *.db-shm
 *.db-wal
-# Server 1 demo data (Poto-Poto Shop) is shared with the repository.
+# Server 1 demo data (Soweto Shop) is shared with the repository.
 # Server 2 (kinta-new.db) and the backups stay local.
 !database/kinta.db
 .env

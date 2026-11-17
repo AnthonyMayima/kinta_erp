@@ -1,5 +1,16 @@
 'use strict';
 /* ════════════════════════════════════════════
+   SOUTH AFRICAN TAX
+   VAT is 15% (the shop's own rate in Settings is used if set).
+   Employers pay UIF 1% + SDL 1% on salaries.
+════════════════════════════════════════════ */
+const vatRate = () => Number(db?.settings?.tva) || 15;
+// VAT contained in an amount that includes VAT.
+const vatIncluded = amount => Math.round(amount*vatRate()/(100+vatRate()));
+const EMPLOYER_LEVY_RATE = 0.02;
+const employerLevies = salary => Math.round(salary*EMPLOYER_LEVY_RATE);
+
+/* ════════════════════════════════════════════
    DATA
 ════════════════════════════════════════════ */
 const CATS = {
@@ -466,7 +477,7 @@ function renderSales(){
     <td>${esc(f.caissier||f.caissier_nom||'Not specified')}</td>
     <td class="mono" style="font-weight:600;color:${f.statut==='Cancelled'?'#ef4444':'inherit'}">${money(f.montant)}</td>
     <td><div style="display:flex;align-items:center;gap:5px;font-size:12px">
-      <span style="width:8px;height:8px;border-radius:50%;background:${f.mode==='Cash'?'#16a34a':f.mode&&f.mode.includes('Mobile')?'#f59e0b':'#3b82f6'};display:inline-block"></span>
+      <span style="width:8px;height:8px;border-radius:50%;background:${f.mode==='Cash'?'#16a34a':f.mode&&f.mode.includes('E-wallet')?'#f59e0b':'#3b82f6'};display:inline-block"></span>
       ${esc(f.mode||'—')}
     </div></td>
     <td><span class="badge ${f.statut==='Paid'?'b-green':f.statut==='Cancelled'?'b-red':'b-amber'}">${esc(f.statut)}</span></td>
@@ -492,7 +503,7 @@ function previewInv(i){
   const tva=s.tva||18;const ht=Math.round(f.montant/(1+tva/100));const tvaA=f.montant-ht;
   const rows=(f.lignes||[]).map(l=>`<tr><td>${esc(l.d)}</td><td style="text-align:center">${esc(l.q)}</td><td style="text-align:right">${amt(l.pu)}</td><td style="text-align:right">${amt(l.t)}</td></tr>`).join('')||`<tr><td colspan="4" style="text-align:center;color:#9ca3af;padding:12px">Details not available</td></tr>`;
   g('inv-content').innerHTML=`<div class="inv-preview" id="printable-inv">
-    <div class="inv-hdr"><div><div class="inv-co">${esc(s.nom)}</div><div style="color:#64748b;font-size:12px;margin-top:4px">${esc(s.adresse)}</div><div style="color:#64748b;font-size:12px">${esc(s.tel)}</div>${s.rccm?`<div style="color:#9ca3af;font-size:11px;margin-top:3px">RCCM: ${esc(s.rccm)}${s.niu?' · VAT no.: '+esc(s.niu):''}</div>`:''}</div>
+    <div class="inv-hdr"><div><div class="inv-co">${esc(s.nom)}</div><div style="color:#64748b;font-size:12px;margin-top:4px">${esc(s.adresse)}</div><div style="color:#64748b;font-size:12px">${esc(s.tel)}</div>${s.rccm?`<div style="color:#9ca3af;font-size:11px;margin-top:3px">Reg. no.: ${esc(s.rccm)}${s.niu?' · VAT no.: '+esc(s.niu):''}</div>`:''}</div>
     <div style="text-align:right"><div class="inv-num-big">${esc(f.num)}</div><span class="inv-badge ${f.statut==='Paid'?'inv-paid':'inv-pend'}">${esc(f.statut)}</span><div style="font-size:12px;color:#64748b;margin-top:6px">Date: ${esc(fmtDate(f.date))}</div>${f.ech?`<div style="font-size:12px;color:#64748b">Due: ${esc(fmtDate(f.ech))}</div>`:''}</div></div>
     <div style="background:#f8fafc;border-radius:8px;padding:12px 14px;margin-bottom:14px"><div style="font-size:11px;color:#9ca3af;margin-bottom:2px">BILLED TO</div><div style="font-size:15px;font-weight:700">${esc(f.client)}</div></div>
     <table class="inv-table"><thead><tr><th>Description</th><th style="text-align:center">Qty</th><th style="text-align:right">Unit price</th><th style="text-align:right">Total excl. tax</th></tr></thead><tbody>${rows}</tbody></table>
@@ -634,7 +645,7 @@ function renderTreasury(){
     <td class="mono" style="white-space:nowrap">${esc(fmtDate(m.date))} 10:${String(15+i*47%60).padStart(2,'0')}</td>
     <td class="bold">${esc(m.lib)}</td>
     <td><span class="badge ${m.type==='in'?'b-green':m.type==='out'?'b-red':'b-blue'}" style="font-size:11px">${m.type==='in'?'In':m.type==='out'?'Out':'Transfer'}</span></td>
-    <td style="font-size:12px;color:#64748b">${m.mode?.includes('Mobile')?'Main till → Mobile Money':'Main till'}</td>
+    <td style="font-size:12px;color:#64748b">${m.mode?.includes('E-wallet')?'Main till → E-wallet':'Main till'}</td>
     <td style="font-size:12px;color:#64748b">${m.type==='in'?'Sales':m.type==='out'?'Stock purchase':'Transfer'}</td>
     <td class="mono" style="color:${m.type==='in'?'#16a34a':'#ef4444'};font-weight:600">${m.type==='in'?'+':'-'}${money(m.montant)}</td>
     <td style="font-size:12px">${m.mode||'Cash'}</td>
@@ -694,7 +705,7 @@ function renderEmployees(){
     <td><div style="display:flex;align-items:center;gap:9px"><div style="width:30px;height:30px;border-radius:50%;background:#16a34a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0">${e.prenom[0]}${e.nom[0]}</div><span class="bold">${e.prenom} ${e.nom}</span></div></td>
     <td>${esc(e.poste)}</td><td class="mono">${esc(fmtDate(e.date))}</td>
     <td class="mono">${money(e.salaire)}</td>
-    <td class="mono" style="color:#f59e0b">${money(Math.round(e.salaire*0.165))}</td>
+    <td class="mono" style="color:#f59e0b">${money(employerLevies(e.salaire))}</td>
     <td><div style="display:flex;align-items:center;gap:7px"><div class="prog" style="width:55px"><div class="prog-f" style="width:${e.pres}%;background:${e.pres>=95?'#16a34a':e.pres>=80?'#f59e0b':'#ef4444'}"></div></div><span style="font-size:11px;color:#64748b">${e.pres}%</span></div></td>
     <td><span class="badge b-green">Active</span></td>
     <td><div style="display:flex;gap:5px"><button class="btn btn-outline btn-xs" onclick="generatePayslip(${i})">${icon('file')} Payslip</button><button class="btn btn-danger btn-xs" onclick="confirmDo('Delete this employee?',()=>{db.employes.splice(${i},1);renderEmployees();saveAll();})">×</button></div></td>
@@ -714,7 +725,7 @@ function renderSuppliersLegacy(){
 /* ════════════════ SAVE FORMS ════════════════ */
 function saveCustomer(){
   const nom=gv('c-nom').trim();if(!nom){toast('Name required','red');return;}
-  db.clients.push({id:'C'+uid(),nom,tel:gv('c-tel'),email:gv('c-email'),ville:gv('c-ville')||'Brazzaville',solde:0,type:gv('c-type'),credit:parseFloat(gv('c-credit'))||0,adr:gv('c-adr')});
+  db.clients.push({id:'C'+uid(),nom,tel:gv('c-tel'),email:gv('c-email'),ville:gv('c-ville')||'Johannesburg',solde:0,type:gv('c-type'),credit:parseFloat(gv('c-credit'))||0,adr:gv('c-adr')});
   renderCustomers();closeM('m-cli');['c-nom','c-tel','c-email','c-ville','c-credit','c-adr'].forEach(id=>{const e=g(id);if(e)e.value='';});saveAll();toast('Customer added','green');
 }
 function saveInvoice(){
@@ -807,7 +818,7 @@ function saveEmployee(){
 }
 function deleteEmployee(i){const e=db.employes[i];if(!e)return;confirmDo(`Delete employee ${e.prenom} ${e.nom} ? Their leave history will be kept.`,()=>{db.employes.splice(i,1);renderEmployees();updateSummary();saveAll();toast('Employee deleted','amber');});}
 function setMvT(t){g('mv-type').value=t;const i=g('mv-in'),o=g('mv-out');if(t==='in'){i.className='btn btn-success';o.className='btn btn-outline';}else{o.className='btn btn-danger';i.className='btn btn-outline';}}
-function showCNSS(){const s=parseFloat(gv('emp-sal'))||0;const b=g('cnss-box');if(s>0){sg('cnss-v',money(Math.round(s*0.165)));b.style.display='block';}else b.style.display='none';}
+function showCNSS(){const s=parseFloat(gv('emp-sal'))||0;const b=g('cnss-box');if(s>0){sg('cnss-v',money(employerLevies(s)));b.style.display='block';}else b.style.display='none';}
 
 /* ════════════════ POS ════════════════ */
 let posDay={count:0,ca:0,cash:0,mm:0};
@@ -946,7 +957,7 @@ async function confirmCashClose(){
   catch(e){toast(e.message,'red');}
 }
 function showCashZReport(z){
-  g('inv-content').innerHTML=`<div class="inv-preview" id="printable-inv"><div class="inv-hdr"><div><div class="inv-co">${esc(db.settings.nom)}</div><div>Till closing report</div></div><div class="inv-num-big">${esc(z.numero)}</div></div><div class="stat-row"><span>Cashier</span><strong>${esc(z.caissier)}</strong></div><div class="stat-row"><span>Number of sales</span><strong>${Number(z.nombre_ventes)||0}</strong></div><div class="stat-row"><span>Total sales</span><strong>${money(z.total_ventes)}</strong></div><div class="stat-row"><span>Cash collected</span><strong>${money(z.ventes_especes)}</strong></div><div class="stat-row"><span>Mobile Money</span><strong>${money(z.ventes_mobile)}</strong></div><div class="stat-row"><span>Opening float</span><strong>${money(z.fonds_initial)}</strong></div><div class="stat-row"><span>Expected cash</span><strong>${money(z.especes_theoriques)}</strong></div><div class="stat-row"><span>Counted cash</span><strong>${money(z.especes_comptees)}</strong></div><div class="inv-total-bar"><span>DIFFERENCE</span><span>${z.ecart>0?'+':''}${money(z.ecart)}</span></div></div>`;openM('m-inv');
+  g('inv-content').innerHTML=`<div class="inv-preview" id="printable-inv"><div class="inv-hdr"><div><div class="inv-co">${esc(db.settings.nom)}</div><div>Till closing report</div></div><div class="inv-num-big">${esc(z.numero)}</div></div><div class="stat-row"><span>Cashier</span><strong>${esc(z.caissier)}</strong></div><div class="stat-row"><span>Number of sales</span><strong>${Number(z.nombre_ventes)||0}</strong></div><div class="stat-row"><span>Total sales</span><strong>${money(z.total_ventes)}</strong></div><div class="stat-row"><span>Cash collected</span><strong>${money(z.ventes_especes)}</strong></div><div class="stat-row"><span>E-wallet</span><strong>${money(z.ventes_mobile)}</strong></div><div class="stat-row"><span>Opening float</span><strong>${money(z.fonds_initial)}</strong></div><div class="stat-row"><span>Expected cash</span><strong>${money(z.especes_theoriques)}</strong></div><div class="stat-row"><span>Counted cash</span><strong>${money(z.especes_comptees)}</strong></div><div class="inv-total-bar"><span>DIFFERENCE</span><span>${z.ecart>0?'+':''}${money(z.ecart)}</span></div></div>`;openM('m-inv');
 }
 function printLastTicket(){
   if(cart.length){toast('Take payment for this cart first to generate its receipt','amber');return;}
@@ -1175,7 +1186,7 @@ function updateHeaderPreview() {
         <div style="font-size:20px;font-weight:800;color:#0f172a;letter-spacing:-.5px">${s.nom||'Company name'}</div>
         ${s.slogan ? `<div style="font-size:12px;color:#64748b;margin-top:2px">${s.slogan}</div>` : ''}
         <div style="font-size:11px;color:#94a3b8;margin-top:3px">${[s.adresse,s.tel,s.email].filter(Boolean).join(' · ')}</div>
-        ${s.rccm ? `<div style="font-size:10px;color:#94a3b8">RCCM : ${s.rccm}${s.niu?' · VAT no.: '+s.niu:''}</div>` : ''}
+        ${s.rccm ? `<div style="font-size:10px;color:#94a3b8">Reg. no.: ${s.rccm}${s.niu?' · VAT no.: '+s.niu:''}</div>` : ''}
       </div>
     </div>
     <div style="font-size:10px;color:#94a3b8;text-align:center">Preview of the header that appears on all your PDF exports</div>`;
@@ -1199,7 +1210,7 @@ function buildExportHeader(title, subtitle, color) {
           ${s.slogan ? `<div style="font-size:13px;color:#64748b;margin-top:3px">${s.slogan}</div>` : ''}
           <div style="font-size:12px;color:#94a3b8;margin-top:4px">${[s.adresse,s.ville].filter(Boolean).join(', ')}</div>
           <div style="font-size:12px;color:#94a3b8">${[s.tel,s.email].filter(Boolean).join(' · ')}</div>
-          ${s.rccm ? `<div style="font-size:11px;color:#94a3b8">RCCM : ${s.rccm}${s.niu?' · VAT no.: '+s.niu:''}</div>` : ''}
+          ${s.rccm ? `<div style="font-size:11px;color:#94a3b8">Reg. no.: ${s.rccm}${s.niu?' · VAT no.: '+s.niu:''}</div>` : ''}
         </div>
       </div>
       <div style="text-align:right">
@@ -1228,7 +1239,7 @@ function buildExportTable(cols, rows, color) {
   const head = cols.map(c => `<th style="background:${col};color:#fff;padding:10px 12px;text-align:left;font-size:12px;font-weight:600;white-space:nowrap">${c}</th>`).join('');
   const body = rows.map((r, ri) => {
     const cells = r.map((cell, ci) => {
-      const isNum = typeof cell === 'number' || (typeof cell === 'string' && /^[\d\s]+F?CFA$/.test(cell));
+      const isNum = typeof cell === 'number' || (typeof cell === 'string' && /^-?R\s[\d,.]+$/.test(cell));
       const style = `padding:9px 12px;font-size:12.5px;border-bottom:1px solid #f1f5f9;${isNum?'text-align:right;font-weight:600':''}`;
       return `<td style="${style}">${cell}</td>`;
     }).join('');
@@ -1341,15 +1352,15 @@ function genReport(type,format='pdf') {
   else if (type === 'hr') {
     title = 'Human Resources Report'; subtitle = 'Staff and payroll costs';
     const totSal = db.employes.reduce((a,e) => a+e.salaire, 0);
-    const totCNSS = Math.round(totSal * 0.165);
+    const totCNSS = employerLevies(totSal);
     const kpis = [
       {label:'Total headcount',     value: String(db.employes.length)},
       {label:'Payroll',    value: money(totSal), color: col},
-      {label:'Employer CNSS (16.5%)', value: money(totCNSS), color:'#f59e0b'},
+      {label:'Employer UIF + SDL (2%)', value: money(totCNSS), color:'#f59e0b'},
       {label:'Average attendance',   value: db.employes.length ? Math.round(db.employes.reduce((a,e)=>a+e.pres,0)/db.employes.length)+'%' : '—'},
     ];
-    const rows = db.employes.map(e => [e.prenom+' '+e.nom, e.poste, fmtDate(e.date), money(e.salaire), money(Math.round(e.salaire*0.165)), e.pres+'%', 'Active']);
-    html = buildKPICards(kpis, col) + buildExportTable(['Employee','Position','Hired on','Gross salary','CNSS (16.5%)','Attendance','Status'], rows, col);
+    const rows = db.employes.map(e => [e.prenom+' '+e.nom, e.poste, fmtDate(e.date), money(e.salaire), money(employerLevies(e.salaire)), e.pres+'%', 'Active']);
+    html = buildKPICards(kpis, col) + buildExportTable(['Employee','Position','Hired on','Gross salary','UIF + SDL (2%)','Attendance','Status'], rows, col);
   }
 
   /* ── BALANCE SHEET ── */
@@ -1358,7 +1369,7 @@ function genReport(type,format='pdf') {
     const rec = db.mouvements.filter(m=>m.type==='in').reduce((a,m)=>a+m.montant,0);
     const dep = db.mouvements.filter(m=>m.type==='out').reduce((a,m)=>a+m.montant,0);
     const stk = db.produits.reduce((a,p)=>a+p.stk*p.pa,0);
-    const tva = Math.round(rec*0.18/1.18);
+    const tva = vatIncluded(rec);
     const net = rec - dep;
     const kpis = [
       {label:'Revenue', value: money(rec), color: col},
@@ -1371,8 +1382,8 @@ function genReport(type,format='pdf') {
       ['Goods purchased', money(db.depenses.filter(d=>d.cat==='Stock purchase').reduce((a,d)=>a+d.montant,0)), '60 — Purchases'],
       ['Rent & charges', money(db.depenses.filter(d=>d.cat==='Rent').reduce((a,d)=>a+d.montant,0)), '62 — Expenses'],
       ['Payroll', money(db.employes.reduce((a,e)=>a+e.salaire,0)), '64 — Staff'],
-      ['Employer CNSS (16.5%)', money(Math.round(db.employes.reduce((a,e)=>a+e.salaire,0)*0.165)), '43 — CNSS'],
-      ['VAT collected (18%)', money(tva), '44 — VAT'],
+      ['Employer UIF + SDL (2%)', money(employerLevies(db.employes.reduce((a,e)=>a+e.salaire,0))), '43 — UIF/SDL'],
+      ['VAT collected ('+vatRate()+'%)', money(tva), '44 — VAT'],
       ['Stock value', money(stk), '31 — Goods'],
       ['NET INCOME', money(net), ''],
     ];
@@ -1504,8 +1515,8 @@ function calcAct(k){
    RETURNS — data + render
 ════════════════════════════════════════════ */
 if(!db.retours) db.retours = [
-  {id:'R001',date:'2026-05-12',ticket:'TK-2026-00126',nom:'Dist. Bouanga & Fils',produit:'Vegetable oil 5L',qty:2,type:'Customer',statut:'Refunded',motif:'Defective product',montant:11000,notes:''},
-  {id:'R002',date:'2026-05-10',ticket:'TK-2026-00121',nom:'Maman Ngo Grocery',produit:'Refined sugar 50kg',qty:1,type:'Customer',statut:'Exchanged',motif:'Wrong product delivered',montant:27000,notes:'Exchange done'},
+  {id:'R001',date:'2026-05-12',ticket:'TK-2026-00126',nom:'Nkosi & Sons Distributors',produit:'Vegetable oil 5L',qty:2,type:'Customer',statut:'Refunded',motif:'Defective product',montant:11000,notes:''},
+  {id:'R002',date:'2026-05-10',ticket:'TK-2026-00121',nom:"Mama Thandi's Spaza",produit:'Refined sugar 50kg',qty:1,type:'Customer',statut:'Exchanged',motif:'Wrong product delivered',montant:27000,notes:'Exchange done'},
 ];
 
 function renderReturns(){
@@ -1563,8 +1574,8 @@ async function saveReturn(){
    SUPPLIER ORDERS
 ════════════════════════════════════════════ */
 if(!db.commandes) db.commandes = [
-  {id:'CMD001',num:'CMD-2026-001',fourn:'Diallo & Sons Ltd',date:'2026-05-10',livraison:'2026-05-20',statut:'Received',montant:450000,notes:'',lignes:[{d:'Fragrant rice 25kg',q:30,pu:12000,t:360000},{d:'Vegetable oil 5L',q:20,pu:4500,t:90000}]},
-  {id:'CMD002',num:'CMD-2026-002',fourn:'Import-Export Nguema',date:'2026-05-08',livraison:'2026-05-25',statut:'Confirmed',montant:280000,notes:'Urgent delivery',lignes:[]},
+  {id:'CMD001',num:'CMD-2026-001',fourn:'Naidoo & Sons (Pty) Ltd',date:'2026-05-10',livraison:'2026-05-20',statut:'Received',montant:450000,notes:'',lignes:[{d:'Fragrant rice 25kg',q:30,pu:12000,t:360000},{d:'Vegetable oil 5L',q:20,pu:4500,t:90000}]},
+  {id:'CMD002',num:'CMD-2026-002',fourn:'Mokoena Import-Export',date:'2026-05-08',livraison:'2026-05-25',statut:'Confirmed',montant:280000,notes:'Urgent delivery',lignes:[]},
 ];
 
 function populateSuppliers(id){const s=g(id);if(!s)return;const empty=document.createElement('option');empty.value='';empty.textContent='— Select —';s.replaceChildren(empty,...db.fournisseurs.map(f=>{const option=document.createElement('option');option.textContent=f.nom;return option;}));}
@@ -1708,7 +1719,7 @@ function renderAccounting(){
   }
   const ca=db.factures.filter(f=>f.statut==='Paid').reduce((a,f)=>a+f.montant,0);
   const charges=db.depenses.reduce((a,d)=>a+d.montant,0)+db.employes.reduce((a,e)=>a+e.salaire,0);
-  const tva=Math.round(ca*0.18/1.18);
+  const tva=vatIncluded(ca);
   const net=ca-charges;
   sg('cpt-ca',money(ca));sg('cpt-charges',money(charges));
   sg('cpt-net',money(net));const nel=g('cpt-net');if(nel)nel.style.color=net>=0?'#16a34a':'#ef4444';
@@ -1721,7 +1732,7 @@ function renderAccounting(){
   sg('cpt-62',money(loyer));
   const sal=db.employes.reduce((a,e)=>a+e.salaire,0);
   sg('cpt-64',money(sal));
-  sg('cpt-44c',money(tva));sg('cpt-44d',money(Math.round(achats*0.18/1.18)));
+  sg('cpt-44c',money(tva));sg('cpt-44d',money(vatIncluded(achats)));
   sg('cpt-resultat',money(net));g('cpt-resultat')?.classList.toggle('amount-neg',net<0);
   // Balance sheet
   const treso=db.mouvements.filter(m=>m.type==='in').reduce((a,m)=>a+m.montant,0)-db.mouvements.filter(m=>m.type==='out').reduce((a,m)=>a+m.montant,0);
@@ -2098,7 +2109,7 @@ function buildAllEntries(){
   db.factures.filter(f=>f.statut==='Paid').forEach(f=>{
     ecr.push({date:f.date,lib:f.num+' — '+f.client,compte:'70',intitule:'Sales',type:'credit',montant:f.montant});
     ecr.push({date:f.date,lib:f.num+' — till',compte:'57',intitule:'Till',type:'debit',montant:f.montant});
-    const tva=Math.round(f.montant*0.18/1.18);
+    const tva=vatIncluded(f.montant);
     ecr.push({date:f.date,lib:'VAT — '+f.num,compte:'44c',intitule:'VAT collected',type:'credit',montant:tva});
   });
   // Purchases
@@ -2110,8 +2121,8 @@ function buildAllEntries(){
   // Salaries
   db.employes.forEach(e=>{
     ecr.push({date:today(),lib:'Salary — '+e.prenom+' '+e.nom,compte:'64',intitule:'Staff costs',type:'debit',montant:e.salaire});
-    const cnss=Math.round(e.salaire*0.165);
-    ecr.push({date:today(),lib:'CNSS — '+e.prenom+' '+e.nom,compte:'43',intitule:'CNSS',type:'debit',montant:cnss});
+    const levies=employerLevies(e.salaire);
+    ecr.push({date:today(),lib:'UIF + SDL — '+e.prenom+' '+e.nom,compte:'43',intitule:'UIF + SDL',type:'debit',montant:levies});
   });
   // Manual entries
   (db.journal||[]).forEach(e=>ecr.push(e));
@@ -2129,7 +2140,7 @@ function renderBalance(){
     '62':{intitule:'Rent & rental charges'},
     '63':{intitule:'Transport & travel'},
     '64':{intitule:'Staff costs'},
-    '43':{intitule:'Employer CNSS'},
+    '43':{intitule:'Employer UIF + SDL'},
     '44c':{intitule:'VAT collected'},
     '44d':{intitule:'Deductible VAT'},
     '40':{intitule:'Supplier debts'},
@@ -2229,7 +2240,7 @@ window.genReport = function(type){
     const mois=appNow().toLocaleDateString(LOCALE,{month:'long',year:'numeric'});
     const kpis=[{label:'VAT collected',value:money(tvaC),color:col},{label:'Deductible VAT',value:money(tvaD),color:'#3b82f6'},{label:'Net VAT payable',value:money(nette),color:'#a855f7'}];
     const rows=[['Sales base excl. tax',money(Math.round(ca-tvaC)),money(tvaC)],['Purchases base excl. tax',money(Math.round(achats-tvaD)),money(tvaD)],['NET VAT PAYABLE','',money(nette)]];
-    const html=buildExportHeader('VAT return','Period: '+mois+' · DGI Congo',col)+buildKPICards(kpis,col)+buildExportTable(['Item','Base excl. tax','VAT ('+tvaRate+'%)'],rows,col)+'<div class="ab-amber" style="padding:12px;border-radius:8px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:13px;margin-top:16px">Payable to DGI Congo Brazzaville before the 15th of next month.</div>'+buildExportFooter();
+    const html=buildExportHeader('VAT return','Period: '+mois+' · SARS',col)+buildKPICards(kpis,col)+buildExportTable(['Item','Base excl. tax','VAT ('+tvaRate+'%)'],rows,col)+'<div class="ab-amber" style="padding:12px;border-radius:8px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:13px;margin-top:16px">Payable to SARS (VAT201) by the 25th of next month.</div>'+buildExportFooter();
     openExportPDF(html,'kinta-vat-'+today());
     toast('VAT return — Ctrl+P for PDF','green');return;
   }
@@ -2241,16 +2252,16 @@ window.genReport = function(type){
 ════════════════════════════════════════════ */
 function generatePayslip(i){
   const e=db.employes[i];const s=db.settings;const col=s.color||'#16a34a';
-  const brut=e.salaire;const cnss=Math.round(brut*0.165);const net=brut-cnss;
+  const brut=e.salaire;const uif=Math.round(brut*0.01);const net=brut-uif;
   const mois=appNow().toLocaleDateString(LOCALE,{month:'long',year:'numeric'});
   const html=buildExportHeader('Payslip','Period: '+mois,col)+`
     <div style="background:#f8fafc;border-radius:10px;padding:16px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <div><div style="font-size:11px;color:#94a3b8;margin-bottom:3px">EMPLOYEE</div><div style="font-size:16px;font-weight:700">${e.prenom} ${e.nom}</div><div style="font-size:13px;color:#64748b">${e.poste}</div><div style="font-size:12px;color:#94a3b8">Hired on ${esc(fmtDate(e.date))}</div></div>
-      <div style="text-align:right"><div style="font-size:11px;color:#94a3b8;margin-bottom:3px">EMPLOYER</div><div style="font-size:14px;font-weight:700">${s.nom||'—'}</div><div style="font-size:12px;color:#64748b">${s.adresse||''}</div><div style="font-size:12px;color:#94a3b8">RCCM : ${s.rccm||'—'}</div></div>
+      <div style="text-align:right"><div style="font-size:11px;color:#94a3b8;margin-bottom:3px">EMPLOYER</div><div style="font-size:14px;font-weight:700">${s.nom||'—'}</div><div style="font-size:12px;color:#64748b">${s.adresse||''}</div><div style="font-size:12px;color:#94a3b8">Reg. no.: ${s.rccm||'—'}</div></div>
     </div>
     `+buildExportTable(['Item','Base','Rate','Amount'],[
     ['Basic gross salary',money(brut),'—',money(brut)],
-    ['Employer CNSS (employer share)',money(brut),'16,5%','-'+money(cnss)],
+    ['UIF (employee share)',money(brut),'1%','-'+money(uif)],
     ['','','',''],
     ['NET PAY','','',money(net)],
   ],col)+`
@@ -2559,15 +2570,15 @@ function ensureV62Modals(){
     <div class="fg"><label class="fl">Last name *</label><input class="fi" id="ce-nom"></div>
     <div class="frow"><div class="fg"><label class="fl">Phone</label><input class="fi" id="ce-tel"></div><div class="fg"><label class="fl">Email</label><input class="fi" id="ce-email" type="email"></div></div>
     <div class="frow"><div class="fg"><label class="fl">City</label><input class="fi" id="ce-ville"></div><div class="fg"><label class="fl">Type</label><select class="fs" id="ce-type"><option>Retailer</option><option>Wholesaler</option><option>Individual</option></select></div></div>
-    <div class="frow"><div class="fg"><label class="fl">Credit line (FCFA)</label><input class="fi" id="ce-credit" type="number" min="0"></div><div class="fg"><label class="fl">Balance due (payments only)</label><input class="fi" id="ce-solde" type="number" min="0" readonly></div></div>
+    <div class="frow"><div class="fg"><label class="fl">Credit line (R)</label><input class="fi" id="ce-credit" type="number" min="0"></div><div class="fg"><label class="fl">Balance due (payments only)</label><input class="fi" id="ce-solde" type="number" min="0" readonly></div></div>
     <div class="fg"><label class="fl">Address</label><textarea class="fi" id="ce-adr" rows="2"></textarea></div>
     <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-client-edit')">Cancel</button><button class="btn btn-green" onclick="saveClientEdit()">Save</button></div>
   </div></div>
   <div class="modal-overlay" id="m-client-payment"><div class="modal">
     <div class="modal-hdr"><div class="modal-title" id="client-payment-title">Record a payment</div><button class="modal-close" onclick="closeM('m-client-payment')">×</button></div>
     <div class="alert-box ab-green"><span>✓</span><div><div style="font-weight:600">Balance due</div><div id="client-payment-balance">${money(0)}</div></div></div>
-    <div class="frow"><div class="fg"><label class="fl">Amount received (FCFA) *</label><input class="fi" id="client-payment-amount" type="number" min="1"></div><div class="fg"><label class="fl">Date</label><input class="fi" id="client-payment-date" type="date"></div></div>
-    <div class="fg"><label class="fl">Payment method</label><select class="fs" id="client-payment-mode"><option>Cash</option><option>Mobile Money (MTN)</option><option>Mobile Money (Airtel)</option><option>Bank transfer</option></select></div>
+    <div class="frow"><div class="fg"><label class="fl">Amount received (R) *</label><input class="fi" id="client-payment-amount" type="number" min="1"></div><div class="fg"><label class="fl">Date</label><input class="fi" id="client-payment-date" type="date"></div></div>
+    <div class="fg"><label class="fl">Payment method</label><select class="fs" id="client-payment-mode"><option>Cash</option><option>E-wallet (SnapScan)</option><option>E-wallet (Zapper)</option><option>Bank transfer</option></select></div>
     <div class="fg"><label class="fl">Note</label><input class="fi" id="client-payment-note" placeholder="Optional reference or comment"></div>
     <div class="modal-ftr"><button class="btn btn-outline" onclick="closeM('m-client-payment')">Cancel</button><button class="btn btn-green" onclick="saveClientPayment()">Take payment</button></div>
   </div></div>
@@ -2587,7 +2598,7 @@ function saveClientEdit(){
   const c=db.clients[_editingClient], nom=gv('ce-nom').trim();
   if(!c||!nom){toast('Customer name is required','red');return;}
   const oldName=c.nom;
-  Object.assign(c,{nom,tel:gv('ce-tel'),email:gv('ce-email'),ville:gv('ce-ville')||'Brazzaville',type:gv('ce-type'),credit:Math.max(0,parseFloat(gv('ce-credit'))||0),solde:Math.max(0,parseFloat(gv('ce-solde'))||0),adr:gv('ce-adr')});
+  Object.assign(c,{nom,tel:gv('ce-tel'),email:gv('ce-email'),ville:gv('ce-ville')||'Johannesburg',type:gv('ce-type'),credit:Math.max(0,parseFloat(gv('ce-credit'))||0),solde:Math.max(0,parseFloat(gv('ce-solde'))||0),adr:gv('ce-adr')});
   db.factures.forEach(f=>{if(f.client===oldName)f.client=nom;});
   saveAll();renderCustomers();buildPOS();closeM('m-client-edit');toast('Customer updated successfully','green');
 }
@@ -2652,9 +2663,9 @@ window.saveMovement=function(){
 };
 function deleteMovement(i){confirmDo('Delete this transaction?',()=>{db.mouvements.splice(i,1);saveAll();renderTreasury();toast('Transaction deleted','amber');});}
 
-function treasuryAccountFromMode(mode){const value=String(mode||'').toLowerCase();return value.includes('mobile')?'mobile':value.includes('bank transfer')||/\bbank\b(?! card)/.test(value)?'bank':'till';}
+function treasuryAccountFromMode(mode){const value=String(mode||'').toLowerCase();return value.includes('e-wallet')||value.includes('mobile')?'mobile':value.includes('bank transfer')||/\bbank\b(?! card)/.test(value)?'bank':'till';}
 function syncTreasuryAccountFromMode(){if(g('mv-account'))g('mv-account').value=treasuryAccountFromMode(gv('mv-mode'));}
-function treasuryAccountLabel(account){return account==='mobile'?'Mobile Money':account==='bank'?'Bank':'Main till';}
+function treasuryAccountLabel(account){return account==='mobile'?'E-wallet':account==='bank'?'Bank':'Main till';}
 function treasuryMovementAccounts(m){
   if(m.type==='transfer'){
     let source=m.sourceAccount,destination=m.destinationAccount;
@@ -2669,7 +2680,7 @@ function treasuryBalances(excludeIndex=-1){
     if(m.type==='in')balances[a.account]+=amount;else if(m.type==='out')balances[a.account]-=amount;else if(m.type==='transfer'){balances[a.source]-=amount;balances[a.destination]+=amount;}
   });return balances;
 }
-function openTreasuryOptions(){const b=treasuryBalances();g('treso-options-balances').innerHTML=`<span>${icon('wallet')}</span><span><strong>Till:</strong> ${money(b.till)}<br><strong>Mobile Money:</strong> ${money(b.mobile)}<br><strong>Bank:</strong> ${money(b.bank)}</span>`;openM('m-treso-options');}
+function openTreasuryOptions(){const b=treasuryBalances();g('treso-options-balances').innerHTML=`<span>${icon('wallet')}</span><span><strong>Till:</strong> ${money(b.till)}<br><strong>E-wallet:</strong> ${money(b.mobile)}<br><strong>Bank:</strong> ${money(b.bank)}</span>`;openM('m-treso-options');}
 
 async function closeManagedCash(id){
   try{
@@ -2763,7 +2774,7 @@ window.renderReports=function(){
 
 window.renderEmployees=function(){
   const tot=db.employes.reduce((a,e)=>a+e.salaire,0),avg=db.employes.length?Math.round(db.employes.reduce((a,e)=>a+e.pres,0)/db.employes.length):0;sg('e-cnt',String(db.employes.length));sg('e-sal',amt(tot));sg('e-pres',avg+'%');
-  const rows=db.employes.map((e,i)=>`<tr><td class="mono bold">${esc(e.id||'E'+String(i+1).padStart(4,'0'))}</td><td class="bold">${esc(e.prenom+' '+e.nom)}</td><td class="mono">${esc(e.tel||'—')}</td><td>${esc(e.poste||'—')}</td><td class="mono">${esc(fmtDate(e.date))}</td><td class="mono">${money(e.salaire)}</td><td class="mono">${money(Math.round(e.salaire*.165))}</td><td>${e.pres}%</td><td><span class="badge b-green">Active</span></td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn btn-outline btn-xs" onclick="generatePayslip(${i})">Payslip</button><button class="btn btn-outline btn-xs" onclick="openEmployeeModal(${i})">Edit</button><button class="btn btn-danger btn-xs" onclick="deleteEmployee(${i})">Delete</button></div></td></tr>`);
+  const rows=db.employes.map((e,i)=>`<tr><td class="mono bold">${esc(e.id||'E'+String(i+1).padStart(4,'0'))}</td><td class="bold">${esc(e.prenom+' '+e.nom)}</td><td class="mono">${esc(e.tel||'—')}</td><td>${esc(e.poste||'—')}</td><td class="mono">${esc(fmtDate(e.date))}</td><td class="mono">${money(e.salaire)}</td><td class="mono">${money(Math.round(e.salaire*EMPLOYER_LEVY_RATE))}</td><td>${e.pres}%</td><td><span class="badge b-green">Active</span></td><td><div style="display:flex;gap:5px;flex-wrap:wrap"><button class="btn btn-outline btn-xs" onclick="generatePayslip(${i})">Payslip</button><button class="btn btn-outline btn-xs" onclick="openEmployeeModal(${i})">Edit</button><button class="btn btn-danger btn-xs" onclick="deleteEmployee(${i})">Delete</button></div></td></tr>`);
   renderPaginatedTable('t-emp',rows,'No employees',10);
 };
 

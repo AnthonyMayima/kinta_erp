@@ -35,7 +35,7 @@ router.post('/register', async (req, res) => {
     };
     transaction(()=>{
       run('INSERT INTO boutiques (id,nom,adresse,ville,tva,devise,couleur) VALUES (?,?,?,?,15,"ZAR","#16a34a")',
-          [boutiqueId, boutique_nom, boutique_adresse||'', boutique_ville||'Brazzaville']);
+          [boutiqueId, boutique_nom, boutique_adresse||'', boutique_ville||'Johannesburg']);
       run('INSERT INTO utilisateurs (id,boutique_id,login,password_hash,role,nom) VALUES (?,?,?,?,"admin",?)',
           [adminId, boutiqueId, admin_login, hash, admin_nom||admin_login]);
       run('INSERT INTO abonnements (boutique_id,formule,statut,debut,fin,prix_mensuel,limite_utilisateurs) VALUES (?,?,?,?,?,?,?)',

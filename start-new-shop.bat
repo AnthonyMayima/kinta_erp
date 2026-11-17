@@ -11,7 +11,7 @@ set "INITIAL_ADMIN_PASSWORD="
 cd /d "%~dp0kinta-backend"
 echo New Kinta instance: http://localhost:3001
 echo Separate database: %DB_PATH%
-echo The Poto-Poto server on port 3000 stays independent.
+echo The Soweto Shop server on port 3000 stays independent.
 echo.
 node src\server.js
 endlocal

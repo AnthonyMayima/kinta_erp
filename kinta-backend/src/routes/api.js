@@ -82,7 +82,7 @@ router.post('/caisse/ventes', canOperateCashRegister, (req,res)=>{
   if(!state)return res.status(409).json({error:'Shop data not initialised'});
   const lignes=Array.isArray(req.body.lignes)?req.body.lignes:[];
   const rawRemise=finiteNumber(req.body.remise ?? 0),mode=req.body.mode||'Cash';
-  if(!['Cash','Mobile Money','Credit'].includes(mode))return res.status(400).json({error:'Invalid payment method'});
+  if(!['Cash','E-wallet','Credit'].includes(mode))return res.status(400).json({error:'Invalid payment method'});
   const client=(state.clients||[]).find(c=>c.id===req.body.client_id);
   if(mode==='Credit'&&!client)return res.status(400).json({error:'Select a customer for the credit sale'});
   if(rawRemise===null||rawRemise<0)return res.status(400).json({error:'Invalid discount'});
@@ -113,7 +113,7 @@ router.post('/caisse/ventes', canOperateCashRegister, (req,res)=>{
     run('UPDATE app_state SET data=?,updated_at=datetime(\'now\'),version=version+1 WHERE boutique_id=?',[JSON.stringify(state),req.user.boutiqueId]);
     run('INSERT INTO caisse_ventes (id,boutique_id,session_id,numero,montant,mode,remise,client_nom,lignes) VALUES (?,?,?,?,?,?,?,?,?)',[id,req.user.boutiqueId,session.id,numero,montant,mode,remise,clientNom,JSON.stringify(ticketLines)]);
     run(`UPDATE caisse_sessions SET total_ventes=total_ventes+?,nombre_ventes=nombre_ventes+1,
-      ventes_especes=ventes_especes+?,ventes_mobile=ventes_mobile+? WHERE id=?`,[montant,mode==='Cash'?montant:0,mode==='Mobile Money'?montant:0,session.id]);
+      ventes_especes=ventes_especes+?,ventes_mobile=ventes_mobile+? WHERE id=?`,[montant,mode==='Cash'?montant:0,mode==='E-wallet'?montant:0,session.id]);
   });
   const version=Number(get('SELECT version FROM app_state WHERE boutique_id=?',[req.user.boutiqueId])?.version)||0;
   res.json({success:true,ticket:state.factures[0],session:get('SELECT * FROM caisse_sessions WHERE id=?',[session.id]),state,version});
@@ -280,7 +280,7 @@ router.post('/clients', notSalesperson, (req, res) => {
   if (!nom) return res.status(400).json({ error: 'Name required' });
   const id = uuidv4();
   run('INSERT INTO clients (id,boutique_id,nom,tel,email,ville,adresse,type,credit) VALUES (?,?,?,?,?,?,?,?,?)',
-      [id,req.user.boutiqueId,nom,tel||'',email||'',ville||'Brazzaville',adresse||'',type||'Retailer',credit||0]);
+      [id,req.user.boutiqueId,nom,tel||'',email||'',ville||'Johannesburg',adresse||'',type||'Retailer',credit||0]);
   res.json({ success: true, id });
 });
 router.put('/clients/:id', notSalesperson, (req, res) => {
