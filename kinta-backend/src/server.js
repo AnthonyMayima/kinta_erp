@@ -14,6 +14,8 @@ const FRONTEND_ROOT = path.resolve(__dirname, '../..');
 const isProduction = process.env.NODE_ENV === 'production';
 
 app.disable('x-powered-by');
+// Behind Render's proxy: use the visitor's real IP so login limits apply per person.
+if (isProduction) app.set('trust proxy', 1);
 app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
 app.use(cors({ origin: isProduction ? false : true, methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'], allowedHeaders: ['Content-Type','Authorization'] }));
 app.use(compression());
